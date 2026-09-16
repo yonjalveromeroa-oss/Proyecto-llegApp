@@ -1,0 +1,114 @@
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9fb;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 350px;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.app-name {
+  font-size: 24px;
+  color: #333;
+}
+
+.form-section h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #333;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.checkbox input {
+  margin-right: 8px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #6a1b9a; 
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #4a148c;
+}
+
+.login-link {
+  text-align: center;
+  font-size: 13px;
+  margin-top: 15px;
+}
+
+.login-link a {
+  color: #6a1b9a;
+  text-decoration: none;
+}
+.home-link {
+  text-align: center;   
+  margin-top: 15px;     
+}
+
+.home-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #2854D9; 
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.home-button:hover {
+  background-color: #1f3fa6; 
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesión - LlegApp</title>
+  <link rel="stylesheet" href="..//CSS/iniciar_sesión.css">
+</head>
+<body>
+  <div class="contenedor">
+    <!-- Panel izquierdo -->
+    <div class="izquierda">
+      <!-- Logo superior con texto -->
+      <div class="logo-superior">
+        <img src="https://cdn-icons-png.flaticon.com/512/4814/4814142.png" alt="Logo LlegApp">
+        <span class="nombre-app">LlegApp</span>
+      </div>
+
+      <!-- Texto y logo inferior centrados -->
+      <div class="contenido-central">
+        <p class="lema">Llega a tu colegio a tiempo.<br>
+        Consulta rutas y horarios de manera sencilla.</p>
+        <div class="logo-inferior">
+          <img src="https://cdn-icons-png.flaticon.com/512/4814/4814142.png" alt="Bus escolar">
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel derecho -->
+    <div class="derecha">
+      <div class="login">
+        <h2>Iniciar sesión</h2>
+        <p class="subtitulo">Ingresa a tu cuenta de LlegApp</p>
+
+        <form>
+          <div class="campo">
+            <label for="correo">CORREO ELECTRÓNICO</label>
+            <input type="email" id="correo" placeholder="correo@ejemplo.com" required>
+          </div>
+
+          <div class="campo">
+            <label for="password">CONTRASEÑA</label>
+            <input type="password" id="password" placeholder="********" required>
+          </div>
+
+          <button type="submit">Iniciar sesión</button>
+          <button type="button" class="secundario">Continuar sin cuenta</button>
+
+          <div class="opciones">
+            <span>¿No tienes cuenta?</span>
+            <a href="crear_cuenta.html">Crear cuenta</a>
+          </div>
+
+          <!-- Botón Home -->
+          <div class="opciones">
+            <a href="home.html" class="home-btn">Home</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

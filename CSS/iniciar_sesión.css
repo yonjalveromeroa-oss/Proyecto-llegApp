@@ -1,0 +1,175 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #F5F7FA;
+}
+
+.contenedor {
+  display: flex;
+  height: 100vh;
+}
+
+/* Panel izquierdo */
+.izquierda {
+  width: 40%;
+  background: #2854D9;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 30px;
+}
+
+/* Logo superior con texto */
+.logo-superior {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-superior img {
+  width: 45px;
+  height: 45px;
+}
+
+.nombre-app {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Contenido central */
+.contenido-central {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.lema {
+  font-size: 20px; /* más grande y atractivo */
+  line-height: 1.6;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+.logo-inferior img {
+  width: 100px;
+  height: auto;
+}
+
+/* Panel derecho */
+.derecha {
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login {
+  width: 360px;
+  background: #fff;
+  padding: 35px;
+  border-radius: 10px;
+  box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+}
+
+.login h2 {
+  font-size: 22px;
+  color: #172033;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.subtitulo {
+  font-size: 13px;
+  color: #4C566D;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.campo {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #4C566D;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #E1E5EC;
+  border-radius: 5px;
+  background: #F8F9FC;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: #6C63FF;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: #5a52d6;
+}
+
+button.secundario {
+  background: #E1E5EC;
+  color: #172033;
+}
+
+button.secundario:hover {
+  background: #cfd3db;
+}
+
+.opciones {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.opciones a {
+  font-size: 12px;
+  color: #2854D9;
+  text-decoration: none;
+}
+
+.opciones a:hover {
+  text-decoration: underline;
+}
+
+.opciones span {
+  font-size: 12px;
+  color: #4C566D;
+}
+
+.home-btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: #7e94ea;
+  color: #fff;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.home-btn:hover {
+  background: #ffffff;
+}
