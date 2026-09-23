@@ -14,7 +14,7 @@ body {
   height: 100vh;
 }
 
-/* Panel izquierdo */
+
 .izquierda {
   width: 40%;
   background: #2854D9;
@@ -25,7 +25,7 @@ body {
   padding: 30px;
 }
 
-/* Logo superior con texto */
+
 .logo-superior {
   display: flex;
   align-items: center;
@@ -42,7 +42,7 @@ body {
   font-weight: bold;
 }
 
-/* Contenido central */
+
 .contenido-central {
   flex: 1;
   display: flex;
@@ -53,7 +53,7 @@ body {
 }
 
 .lema {
-  font-size: 20px; /* más grande y atractivo */
+  font-size: 20px; 
   line-height: 1.6;
   margin-bottom: 25px;
   font-weight: 600;
@@ -64,7 +64,6 @@ body {
   height: auto;
 }
 
-/* Panel derecho */
 .derecha {
   width: 60%;
   display: flex;

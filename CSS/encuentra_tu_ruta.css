@@ -1,0 +1,129 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f5f7fa;
+}
+
+
+.navbar {
+  background: #2854D9;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
+}
+
+.app-name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
+
+
+.search-section {
+  background: white;
+  padding: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.search-section input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  flex: 1;
+}
+
+.btn {
+  background: #2854D9;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #1f43b0;
+}
+
+.sort-options {
+  display: flex;
+  gap: 8px;
+}
+
+.sort {
+  background: #E1E5EC;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.sort:hover {
+  background: #cfd3db;
+}
+
+.routes {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+}
+
+.route-card {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.route-card h3 {
+  margin-top: 0;
+  color: #2854D9;
+}
+
+
+.status.en-servicio {
+  color: green;
+  font-weight: bold;
+}
+
+.status.retraso {
+  color: orange;
+  font-weight: bold;
+}
+
+.status.fuera-servicio {
+  color: red;
+  font-weight: bold;
+}

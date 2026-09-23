@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LlegApp - Horarios</title>
+  <link rel="stylesheet" href="/CSS/horario.css">
+</head>
+<body>
+ 
+  <header>
+ <div class="logo-superior">
+        <img src="https://cdn-icons-png.flaticon.com/512/4814/4814142.png" alt="Logo LlegApp">
+        <span class="nombre-app">LlegApp</span>
+      </div>
+    <nav>
+      <a href="home.html">Inicio</a>
+      <a href="rutas.html">Rutas</a>
+      <a href="novedades.html">Novedades</a>
+      <a href="perfil.html">Perfil</a>
+      
+    </nav>
+  </header>
+
+  <main class="container">
+    <h2>Horarios de rutas</h2>
+    <p>Consulta las próximas salidas y frecuencias.</p>
+
+   
+    <div class="tabs">
+      <button class="tab active">Hoy</button>
+      <button class="tab">Mañana</button>
+      <button class="tab">Viernes</button>
+    </div>
+
+    
+    <section class="horarios">
+      <div class="ruta">
+        <h3>Ruta 205</h3>
+        <p>4:20 PM 4:35 PM 4:50 PM Cada 15 min <span class="status en-servicio">En servicio</span></p>
+      </div>
+      <div class="ruta">
+        <h3>Ruta 132</h3>
+        <p>4:25 PM 4:45 PM 5:05 PM Cada 20 min <span class="status en-servicio">En servicio</span></p>
+      </div>
+      <div class="ruta">
+        <h3>Ruta 109</h3>
+        <p>4:30 PM 5:00 PM 5:30 PM Cada 30 min <span class="status fuera-servicio">Fuera de servicio</span></p>
+      </div>
+    </section>
+
+    <p class="nota">Los horarios son aproximados y pueden variar según tráfico.</p>
+  </main>
+</body>
+</html>

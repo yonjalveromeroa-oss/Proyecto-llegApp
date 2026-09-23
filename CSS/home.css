@@ -1,4 +1,4 @@
-/* Reset básico */
+
 * {
   margin: 0;
   padding: 0;
@@ -11,7 +11,6 @@ body {
   color: #333;
 }
 
-/* Navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -45,7 +44,7 @@ body {
   font-weight: 500;
 }
 
-/* Hero */
+
 .hero {
   display: flex;
   justify-content: space-between;
@@ -84,7 +83,7 @@ body {
   font-weight: 500;
 }
 
-/* Buscador */
+
 .search-section {
   padding: 2rem;
   text-align: center;
@@ -111,7 +110,7 @@ body {
   text-decoration: none;
 }
 
-/* Cards */
+
 .cards {
   padding: 2rem;
   background: #fff;
@@ -150,7 +149,7 @@ body {
   margin-bottom: 0.5rem;
 }
 
-/* Novedades */
+
 .news {
   padding: 2rem;
   background: #e9f2ff;
@@ -181,7 +180,7 @@ body {
 
 .news a.news-item.active {
   background: #d4edda;
-  color: #155724;
+  color: #1a622b;
 }
 
 .news a.news-item:hover {

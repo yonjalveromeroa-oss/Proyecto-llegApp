@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LlegApp</title>
-  <link rel="stylesheet" href="..//CSS/home.css">
+  <link rel="stylesheet" href="../CSS/home.css">
 </head>
 <body>
   
@@ -15,8 +15,9 @@
         <span>LlegApp</span>
       </div>
       <ul class="nav-links">
-        <li><a href="rutas.html">Rutas</a></li>
-        <li><a href="horarios.html">Horarios</a></li>
+        <li><a href="encuentra_tu_ruta.html">Rutas</a></li>
+        <!-- Horarios ahora redirige a horario.html -->
+        <li><a href="horario.html">Horarios</a></li>
         <li><a href="novedades.html">Novedades</a></li>
         <li><a href="perfil.html">Perfil</a></li>
       </ul>
@@ -28,8 +29,8 @@
     <div class="hero-text">
       <h1>Tu ruta al colegio, sin complicaciones.</h1>
       <p>Encuentra buses, horarios, costos y paraderos desde un solo lugar.</p>
-      <button class="btn-primary" onclick="window.location.href='buscar.html'">
-        Buscar mi ruta
+      <button class="btn-primary" onclick="window.location.href='perfil.html'">
+        Ir a mi perfil
       </button>
     </div>
     <div class="hero-image">
@@ -44,7 +45,8 @@
     <div class="search-box">
       <input type="text" placeholder="Mi ubicación">
       <input type="text" placeholder="Seleccionar colegio">
-      <button class="btn-primary" onclick="window.location.href='buscar.html'">
+     
+      <button class="btn-primary" onclick="window.location.href='encuentra_tu_ruta.html'">
         Buscar rutas
       </button>
       <a href="#" class="use-location">Usar mi ubicación</a>
@@ -56,13 +58,25 @@
     <h2>Encuentra todo lo que necesitas</h2>
     <div class="card-container">
       
-      <a href="rutas.html" class="card">
+      
+      <a href="encuentra_tu_ruta.html" class="card">
         <img src="https://images.icon-icons.com/1863/PNG/512/directions-bus_119216.png" alt="Ruta">
         <h3>Encuentra tu ruta</h3>
         <p>Compara las mejores opciones</p>
       </a>
       
-      <a href="horarios.html" class="card">
+   
+      <a href="horario.html" class="card">
+        <img src="https://iete-red.vercel.app/Hero/time.png" alt="Horarios">
+        <h3>Horarios</h3>
+        <p>Consulta próximas salidas</p>
+      </a>
+    </div>
+  </section>
+
+
+  
+   <a href="horario.html" class="card">
         <img src="https://iete-red.vercel.app/Hero/time.png" alt="Horarios">
         <h3>Horarios</h3>
         <p>Consulta próximas salidas</p>
@@ -73,16 +87,16 @@
   
   <section class="news">
     <h2>Novedades</h2>
-    <a href="ruta109.html" class="Fuera de servicio">
+    <a href="novedades.html" class="Fuera de servicio">
       <h3>Ruta 109</h3>
       <p>Fuera de servicio</p>
     </a>
-    <a href="ruta205-delayed.html" class="Retraso">
+    <a href="novedades.html" class="Retraso">
       <h3>Ruta 205</h3>
       <p>Retrasada</p>
     </a>
-    <a href="ruta205-active.html" class="Activo">
-      <h3>Ruta 205</h3>
+    <a class="Activo">
+      <h3>Ruta 139</h3>
       <p>En ruta</p>
     </a>
   </section>
