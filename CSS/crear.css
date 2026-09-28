@@ -80,9 +80,25 @@ button {
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #4a148c;
+.crear-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #6a1b9a;   /* Morado principal */
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  transition: background-color 0.3s ease;
 }
+
+.crear-button:hover {
+  background-color: #4a148c;   
+}
+
+
 
 .login-link {
   text-align: center;

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ruta 205</title>
+  <link rel="stylesheet" href="/CSS/mapa.css">
+  
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+</head>
+<body>
+  <div class="container">
+   
+    <div class="map">
+      <h2 id="ruta-nombre">Ruta 205</h2>
+      <p id="ruta-descripcion">Parque Principal → Colegio San José</p>
+      <div id="mapid"></div>
+    </div>
+
+     <div class="container">
+    <div class="card">
+      <h3>Detalles de la ruta</h3>
+      <ul>
+        <li>🟢 En servicio</li>
+        <li>⏱ Tiempo: 28 min</li>
+        <li>💰 Costo: $2.400</li>
+        <li>🪧 Paraderos: 6</li>
+        <li>🚆 Próxima salida: 4:20 PM</li>
+      </ul>
+      <button class="save">Guardar ruta</button>
+    </div>
+  </div>
+  
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    
+    var map = L.map('mapid').setView([5.0703, -75.5138], 14);
+
+    
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    
+    var puntosRuta = [
+      [5.0703, -75.5138], 
+      [5.0720, -75.5145], 
+      [5.0740, -75.5160], 
+      [5.0760, -75.5175]  
+    ];
+
+   
+    var ruta = L.polyline(puntosRuta, {color: 'blue'}).addTo(map);
+
+    
+    puntosRuta.forEach((punto, i) => {
+      L.circleMarker(punto, {radius: 6, color: 'blue'}).addTo(map)
+        .bindPopup("Paradero " + (i+1));
+    });
+
+    
+    map.fitBounds(ruta.getBounds());
+  </script>
+</body>
+</html>

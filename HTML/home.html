@@ -16,7 +16,6 @@
       </div>
       <ul class="nav-links">
         <li><a href="encuentra_tu_ruta.html">Rutas</a></li>
-        <!-- Horarios ahora redirige a horario.html -->
         <li><a href="horario.html">Horarios</a></li>
         <li><a href="novedades.html">Novedades</a></li>
         <li><a href="perfil.html">Perfil</a></li>
@@ -24,7 +23,6 @@
     </nav>
   </header>
 
-  
   <section class="hero">
     <div class="hero-text">
       <h1>Tu ruta al colegio, sin complicaciones.</h1>
@@ -39,13 +37,11 @@
     </div>
   </section>
 
-  
   <section class="search-section">
     <h2>¿A dónde necesitas llegar?</h2>
     <div class="search-box">
       <input type="text" placeholder="Mi ubicación">
       <input type="text" placeholder="Seleccionar colegio">
-     
       <button class="btn-primary" onclick="window.location.href='encuentra_tu_ruta.html'">
         Buscar rutas
       </button>
@@ -53,19 +49,14 @@
     </div>
   </section>
 
-
   <section class="cards">
     <h2>Encuentra todo lo que necesitas</h2>
     <div class="card-container">
-      
-      
       <a href="encuentra_tu_ruta.html" class="card">
         <img src="https://images.icon-icons.com/1863/PNG/512/directions-bus_119216.png" alt="Ruta">
         <h3>Encuentra tu ruta</h3>
         <p>Compara las mejores opciones</p>
       </a>
-      
-   
       <a href="horario.html" class="card">
         <img src="https://iete-red.vercel.app/Hero/time.png" alt="Horarios">
         <h3>Horarios</h3>
@@ -74,31 +65,34 @@
     </div>
   </section>
 
-
-  
-   <a href="horario.html" class="card">
-        <img src="https://iete-red.vercel.app/Hero/time.png" alt="Horarios">
-        <h3>Horarios</h3>
-        <p>Consulta próximas salidas</p>
+  <!-- Sección de Novedades en formato de cuadros -->
+  <section class="cards">
+    <h2>Novedades</h2>
+    <div class="card-container">
+      
+      <!-- Cuadro 1 -->
+      <a href="novedades.html" class="card out">
+        <img src="https://cdn-icons-png.flaticon.com/512/565/565545.png" alt="Fuera de servicio">
+        <h3>Ruta 109</h3>
+        <p>Centro</p>
       </a>
+
+      <!-- Cuadro 2 -->
+      <a href="novedades.html" class="card delayed">
+        <img src="https://cdn-icons-png.flaticon.com/512/565/565545.png" alt="Retrasada">
+        <h3>Ruta 205</h3>
+        <p>carrera 23</p>
+      </a>
+
+      <!-- Cuadro 3 -->
+      <a href="novedades.html" class="card active">
+        <img src="https://cdn-icons-png.flaticon.com/512/565/565545.png" alt="En ruta">
+        <h3>Ruta 139</h3>
+        <p>Terminal</p>
+      </a>
+
     </div>
   </section>
 
-  
-  <section class="news">
-    <h2>Novedades</h2>
-    <a href="novedades.html" class="Fuera de servicio">
-      <h3>Ruta 109</h3>
-      <p>Fuera de servicio</p>
-    </a>
-    <a href="novedades.html" class="Retraso">
-      <h3>Ruta 205</h3>
-      <p>Retrasada</p>
-    </a>
-    <a class="Activo">
-      <h3>Ruta 139</h3>
-      <p>En ruta</p>
-    </a>
-  </section>
 </body>
 </html>

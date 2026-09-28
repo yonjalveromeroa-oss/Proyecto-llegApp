@@ -76,6 +76,34 @@ body {
   background: #1f43b0;
 }
 
+/* Botón de favoritos */
+.btn-fav {
+  background-color: #ffc107;   
+  color: #333;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-fav:hover {
+  background-color: #e0a800;   
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.btn-fav:active {
+  background-color: #c69500;   
+  transform: scale(0.95);
+}
+
+
 .sort-options {
   display: flex;
   gap: 8px;
