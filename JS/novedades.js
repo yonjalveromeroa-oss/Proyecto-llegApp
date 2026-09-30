@@ -4,7 +4,7 @@ document.getElementById("formNovedades").addEventListener("submit", function(e) 
   const tipo = document.getElementById("tipo").value.trim();
   const comentarios = document.getElementById("comentarios").value.trim();
 
-  // Validaciones
+  
   if (tipo === "" || comentarios === "") {
     Swal.fire({
       icon: "error",
@@ -14,7 +14,7 @@ document.getElementById("formNovedades").addEventListener("submit", function(e) 
     return;
   }
 
-  // Guardar novedad en localStorage
+
   const novedad = {
     tipo,
     comentarios,
@@ -22,7 +22,7 @@ document.getElementById("formNovedades").addEventListener("submit", function(e) 
   };
   localStorage.setItem("ultimaNovedad", JSON.stringify(novedad));
 
-  // Alerta de éxito (sin redirección)
+
   Swal.fire({
     icon: "success",
     title: "Novedad enviada",

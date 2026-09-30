@@ -1,4 +1,3 @@
-// Mostrar la última novedad guardada como si fuera un correo
 const novedadContainer = document.getElementById("novedad-container");
 const novedad = localStorage.getItem("ultimaNovedad");
 
@@ -15,14 +14,13 @@ if (novedad && novedadContainer) {
   `;
 }
 
-// Botón Editar → redirige a editar perfil
 document.querySelectorAll(".editar").forEach(btn => {
   btn.addEventListener("click", function() {
     window.location.href = "editar_tu_perfil.html";
   });
 });
 
-// Botón Eliminar → confirmación con SweetAlert2
+
 document.querySelectorAll(".eliminar").forEach(btn => {
   btn.addEventListener("click", function() {
     Swal.fire({

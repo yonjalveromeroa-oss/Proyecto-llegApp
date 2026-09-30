@@ -7,7 +7,7 @@ document.getElementById("editarPerfilForm").addEventListener("submit", function(
   let partida = document.getElementById("partida");
   let notificaciones = document.getElementById("notificaciones");
 
-  // 🔄 Resetear estilos
+ 
   [nombre, email, colegio, partida].forEach(input => input.classList.remove("error"));
 
   let errores = [];
@@ -35,7 +35,6 @@ document.getElementById("editarPerfilForm").addEventListener("submit", function(
     partida.classList.add("error");
   }
 
-  // 🚫 Mostrar errores si existen
   if (errores.length > 0) {
     Swal.fire({
       icon: "error",
@@ -45,7 +44,7 @@ document.getElementById("editarPerfilForm").addEventListener("submit", function(
     return;
   }
 
-  // ✅ Si todo está correcto
+ 
   Swal.fire({
     icon: "success",
     title: "Perfil actualizado",
@@ -54,5 +53,5 @@ document.getElementById("editarPerfilForm").addEventListener("submit", function(
     timer: 2000
   });
 
-  // Aquí podrías enviar los datos al servidor con fetch/AJAX
+  
 });
