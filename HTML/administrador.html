@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administrador - LlegApp</title>
+  <link rel="stylesheet" href="/CSS/administrador.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+  <div class="admin-container">
+    
+    <aside class="sidebar">
+      <h2>Administrador</h2>
+      <ul>
+        <li><a href="home.html">🏠 Inicio</a></li>
+        <li><a href="encuentra_tu_ruta.html">🚌 Encuentra tu ruta</a></li>
+        <li><a href="horario.html">⏱ Horarios</a></li>
+        <li><a href="comentarioU.html">⚠️ Novedades</a></li>
+        <li><a href="mapa.html">🗺️ Mapa de ruta</a></li>
+        <li><a href="perfil.html">👤 Perfil</a></li>
+        <li><a href="editar_tu_perfil.html">✏️ Editar perfil</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <header>
+        <h1>Panel de control</h1>
+        <p>Bienvenido, Administrador</p>
+      </header>
+
+      <section class="stats">
+        <div class="card">
+          <h3>Usuarios registrados</h3>
+          <p>2</p>
+        </div>
+        <div class="card">
+          <h3>Rutas activas</h3>
+          <p>1</p>
+        </div>
+        <div class="card">
+          <h3>Novedades reportadas</h3>
+          <p>0</p>
+        </div>
+      </section>
+
+
+      <section class="users">
+        <h2>Gestión de usuarios</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Correo</th>
+              <th>Colegio</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Juan Romero</td>
+              <td>juan.romero@ejemplo.com</td>
+              <td>Colegio San José</td>
+              <td>Activo</td>
+              <td>
+                <button class="editar">Editar</button>
+                <button class="eliminar">Eliminar</button>
+              </td>
+            </tr>
+            <tr>
+              <td>María López</td>
+              <td>maria.lopez@ejemplo.com</td>
+              <td>Colegio Central</td>
+              <td>Activo</td>
+              <td>
+                <button class="editar">Editar</button>
+                <button class="eliminar">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  
+  <script src="/JS/admin.js"></script>
+</body>
+</html>

@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>LlegApp</title>
   <link rel="stylesheet" href="/CSS/encuentra_tu_ruta.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
 <body>
-  
+
   <nav class="navbar">
     <div class="brand">
       <img src="https://cdn-icons-png.flaticon.com/512/4814/4814142.png" alt="Logo LlegApp" class="logo">
@@ -35,8 +38,8 @@
       <p><strong>Costo:</strong> $2.400</p>
       <p><strong>Paraderos:</strong> 6</p>
       <p class="status retraso">Retraso</p>
-      <button class="btn" onclick="window.location.href='ruta205.html'">Ver ruta</button>
-      <button class="btn-fav" onclick="alert('Ruta 205 guardada en favoritos')">⭐ Guardar a favoritos</button>
+      <button class="btn" onclick="window.location.href='mapa.html'">Ver ruta</button>
+      <button class="btn-fav" data-ruta="205">⭐ Guardar a favoritos</button>
     </div>
 
     <div class="route-card">
@@ -46,8 +49,8 @@
       <p><strong>Costo:</strong> $2.400</p>
       <p><strong>Paraderos:</strong> 8</p>
       <p class="status en-servicio">En servicio</p>
-      <button class="btn" onclick="window.location.href='ruta132.html'">Ver ruta</button>
-      <button class="btn-fav" onclick="alert('Ruta 132 guardada en favoritos')">⭐ Guardar a favoritos</button>
+      <button class="btn" onclick="window.location.href='mapa.html'">Ver ruta</button>
+      <button class="btn-fav" data-ruta="132">⭐ Guardar a favoritos</button>
     </div>
 
     <div class="route-card">
@@ -57,9 +60,27 @@
       <p><strong>Costo:</strong> $2.600</p>
       <p><strong>Paraderos:</strong> 10</p>
       <p class="status fuera-servicio">Fuera de servicio</p>
-      <button class="btn" onclick="window.location.href='ruta109.html'">Ver ruta</button>
-      <button class="btn-fav" onclick="alert('Ruta 109 guardada en favoritos')">⭐ Guardar a favoritos</button>
+      <button class="btn" onclick="window.location.href='mapa.html'">Ver ruta</button>
+      <button class="btn-fav" data-ruta="109">⭐ Guardar a favoritos</button>
     </div>
   </section>
+  <script src="/JS/encuentra_tu_ruta.js"></script>
 </body>
+<script>
+  
+  document.querySelectorAll(".btn-fav").forEach(btn => {
+    btn.addEventListener("click", function() {
+      let ruta = this.getAttribute("data-ruta");
+
+      Swal.fire({
+        icon: "success",
+        title: "Ruta guardada",
+        text: `La ruta ${ruta} se ha añadido a tus favoritos`,
+        showConfirmButton: false,
+        timer: 2000
+      });
+    });
+  });
+</script>
+
 </html>

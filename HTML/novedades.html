@@ -5,29 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Novedades</title>
   <link rel="stylesheet" href="/CSS/novedades.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
   <section class="novedades-form">
     <h2>NOVEDADES</h2>
     
-    <form action="#" method="post">
+    
+    <form id="formNovedades" action="#" method="post">
      
       <label for="tipo">Tipo de novedades:</label>
       <select id="tipo" name="tipo">
+        <option value="">-- Selecciona --</option>
         <option value="fuera-servicio">Fuera de servicio</option>
         <option value="retraso">Retraso</option>
       </select>
 
       <label for="comentarios">Comentarios:</label>
-<textarea id="comentarios" name="comentarios" rows="5" placeholder="Escribe aquí tus comentarios..."></textarea>
-
+      <textarea id="comentarios" name="comentarios" rows="5" placeholder="Escribe aquí tus comentarios..."></textarea>
 
       <button type="submit">Enviar</button>
 
-        <div class="opciones">
-            <a href="home.html" class="home-btn">Home</a>
-          </div>
+      <div class="opciones">
+        <a href="home.html" class="home-btn">Home</a>
+      </div>
     </form>
   </section>
+
+ 
+  <script src="/JS/novedades.js"></script>
 </body>
 </html>

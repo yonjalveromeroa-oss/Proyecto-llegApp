@@ -132,3 +132,9 @@ footer {
   text-align: center;
   padding: 15px;
 }
+
+input.error, select.error {
+  border: 2px solid red;
+  background-color: #ffe6e6;
+}
+

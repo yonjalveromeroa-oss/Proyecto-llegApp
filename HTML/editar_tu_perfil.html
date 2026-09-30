@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>LlegApp - Editar perfil</title>
   <link rel="stylesheet" href="/CSS/editar_tu_perfil.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
+
 <body>
-  
+
   <nav class="navbar">
     <ul>
       <li><a href="index.html">Inicio</a></li>
@@ -17,12 +21,12 @@
     </ul>
   </nav>
 
-  
+
   <main class="container">
     <section class="edit-card">
       <div class="circle">JR</div>
       <h2>Editar perfil</h2>
-      <form>
+      <form id="editarPerfilForm">
         <div class="form-group">
           <label for="nombre">Nombre</label>
           <input type="text" id="nombre" value="Juan Romero">
@@ -59,9 +63,12 @@
     </section>
   </main>
 
-  
+
   <footer>
     <p>LlegApp · Transporte público para estudiantes</p>
   </footer>
+    <script src="/JS/editar.js"></script>
+
 </body>
+
 </html>
