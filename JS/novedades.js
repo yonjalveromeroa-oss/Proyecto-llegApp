@@ -4,7 +4,6 @@ document.getElementById("formNovedades").addEventListener("submit", function(e) 
   const tipo = document.getElementById("tipo").value.trim();
   const comentarios = document.getElementById("comentarios").value.trim();
 
-  
   if (tipo === "" || comentarios === "") {
     Swal.fire({
       icon: "error",
@@ -14,19 +13,29 @@ document.getElementById("formNovedades").addEventListener("submit", function(e) 
     return;
   }
 
-
   const novedad = {
     tipo,
     comentarios,
     fecha: new Date().toLocaleString()
   };
-  localStorage.setItem("ultimaNovedad", JSON.stringify(novedad));
 
+  // Recuperar novedades anteriores
+  let novedades = JSON.parse(localStorage.getItem("novedades")) || [];
+  novedades.push(novedad);
+
+  // Guardar nuevamente en localStorage
+  localStorage.setItem("novedades", JSON.stringify(novedades));
 
   Swal.fire({
     icon: "success",
     title: "Novedad enviada",
     text: "Tu reporte ha sido enviado al administrador",
-    showConfirmButton: true
+    showConfirmButton: false,
+    timer: 2000
   });
+
+  // Redirigir al panel de administrador
+  setTimeout(() => {
+    window.location.href = "administrador.html";
+  }, 2000);
 });

@@ -16,6 +16,8 @@
     <li><a href="encuentra_tu_ruta.html">Rutas</a></li>
     <li><a href="horario.html">Horarios</a></li>
     <li><a href="novedades.html">Alertas</a></li>
+    <li><a href="novedades.html">Alertas</a></li>
+    <li><a href="rutas_guardadas.html">Rutas guardadas</a></li>
   </ul>
 </nav>
 
@@ -52,4 +54,21 @@
     <p>LlegApp · Transporte público para estudiantes</p>
   </footer>
 </body>
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    let perfil = JSON.parse(localStorage.getItem("perfil"));
+
+    if (perfil) {
+      
+      document.querySelector(".circle").textContent = perfil.nombre.split(" ").map(p => p[0]).join("").toUpperCase();
+      document.querySelector("h2").textContent = perfil.nombre;
+      document.querySelector("p:nth-of-type(1)").textContent = "Email: " + perfil.email;
+      document.querySelector("p:nth-of-type(2)").textContent = "Colegio: " + perfil.colegio;
+      document.querySelector("p:nth-of-type(3)").textContent = "Punto de partida: " + perfil.partida;
+      document.querySelector("p:nth-of-type(5)").textContent = "Notificaciones: " + perfil.notificaciones;
+    }
+  });
+</script>
+
 </html>

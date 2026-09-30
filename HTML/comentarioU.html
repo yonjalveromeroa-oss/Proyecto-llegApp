@@ -18,23 +18,26 @@
     </div>
   </div>
 
-  <script>
-   
-    const mensajeNovedad = document.getElementById("mensaje-novedad");
-    const novedad = localStorage.getItem("ultimaNovedad");
+<script>
+  const mensajeNovedad = document.getElementById("mensaje-novedad");
+  const novedades = JSON.parse(localStorage.getItem("novedades")) || [];
 
-    if (novedad) {
-      const data = JSON.parse(novedad);
-      mensajeNovedad.innerHTML = `
+  if (novedades.length > 0) {
+    mensajeNovedad.innerHTML = "";
+    novedades.forEach((data, index) => {
+      mensajeNovedad.innerHTML += `
         <div class="mensaje">
-          <p><strong>De:</strong> Usuario del sistema</p>
+          <p><strong>Novedad #${index + 1}</strong></p>
           <p><strong>Tipo de novedad:</strong> ${data.tipo}</p>
           <p><strong>Comentario:</strong></p>
           <blockquote>${data.comentarios}</blockquote>
           <p><em>Fecha de envío:</em> ${data.fecha}</p>
         </div>
+        <hr>
       `;
-    }
-  </script>
+    });
+  }
+</script>
+
 </body>
 </html>

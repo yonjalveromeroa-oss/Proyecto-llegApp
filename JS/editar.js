@@ -7,7 +7,6 @@ document.getElementById("editarPerfilForm").addEventListener("submit", function(
   let partida = document.getElementById("partida");
   let notificaciones = document.getElementById("notificaciones");
 
- 
   [nombre, email, colegio, partida].forEach(input => input.classList.remove("error"));
 
   let errores = [];
@@ -43,8 +42,16 @@ document.getElementById("editarPerfilForm").addEventListener("submit", function(
     });
     return;
   }
+  
+localStorage.setItem("perfil", JSON.stringify({
+  nombre: nombre.value.trim(),
+  email: email.value.trim(),
+  colegio: colegio.value.trim(),
+  partida: partida.value.trim(),
+  notificaciones: notificaciones.value
+}));
 
- 
+
   Swal.fire({
     icon: "success",
     title: "Perfil actualizado",
@@ -53,5 +60,8 @@ document.getElementById("editarPerfilForm").addEventListener("submit", function(
     timer: 2000
   });
 
-  
+  // Redirigir al perfil después de guardar
+  setTimeout(() => {
+    window.location.href = "perfil.html";
+  }, 2000);
 });

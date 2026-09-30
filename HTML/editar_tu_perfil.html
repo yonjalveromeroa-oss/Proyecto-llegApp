@@ -70,5 +70,22 @@
     <script src="/JS/editar.js"></script>
 
 </body>
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    let perfil = JSON.parse(localStorage.getItem("perfil"));
+
+    if (perfil) {
+     
+      document.querySelector(".circle").textContent = perfil.nombre.split(" ").map(p => p[0]).join("").toUpperCase();
+
+      // Rellenar los campos del formulario con los datos guardados
+      document.getElementById("nombre").value = perfil.nombre;
+      document.getElementById("email").value = perfil.email;
+      document.getElementById("colegio").value = perfil.colegio;
+      document.getElementById("partida").value = perfil.partida;
+      document.getElementById("notificaciones").value = perfil.notificaciones;
+    }
+  });
+</script>
 
 </html>
