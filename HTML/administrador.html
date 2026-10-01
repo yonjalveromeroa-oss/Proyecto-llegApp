@@ -32,7 +32,8 @@
       <section class="stats">
         <div class="card">
           <h3>Usuarios registrados</h3>
-          <p>2</p>
+          <!-- Se agregó el id aquí -->
+          <p id="contador-usuarios">0</p>
         </div>
         <div class="card">
           <h3>Rutas activas</h3>
@@ -58,26 +59,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Juan Romero</td>
-              <td>juan.romero@ejemplo.com</td>
-              <td>Colegio San José</td>
-              <td>Activo</td>
-              <td>
-                <button class="editar">Editar</button>
-                <button class="eliminar">Eliminar</button>
-              </td>
-            </tr>
-            <tr>
-              <td>María López</td>
-              <td>maria.lopez@ejemplo.com</td>
-              <td>Colegio Central</td>
-              <td>Activo</td>
-              <td>
-                <button class="editar">Editar</button>
-                <button class="eliminar">Eliminar</button>
-              </td>
-            </tr>
+            <!-- Aquí se insertarán dinámicamente los usuarios desde localStorage -->
           </tbody>
         </table>
       </section>
@@ -86,20 +68,4 @@
 
   <script src="/JS/admin.js"></script>
 </body>
-<section class="stats">
-  <div class="card">
-    <h3>Usuarios registrados</h3>
-    <p>2</p>
-  </div>
-  <div class="card">
-    <h3>Rutas activas</h3>
-    <p>1</p>
-  </div>
-  <div class="card">
-    <h3>Novedades reportadas</h3>
-    <!-- contador dinámico -->
-    <p id="contador-novedades">0</p>
-  </div>
-</section>
-
 </html>

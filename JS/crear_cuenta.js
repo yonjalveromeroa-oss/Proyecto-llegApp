@@ -7,7 +7,6 @@ document.getElementById("registroForm").addEventListener("submit", function(e) {
   let password = document.getElementById("password");
   let terminos = document.getElementById("terminos");
 
- 
   [nombre, correo, colegio, password].forEach(input => input.classList.remove("error"));
 
   let errores = [];
@@ -36,7 +35,6 @@ document.getElementById("registroForm").addEventListener("submit", function(e) {
     errores.push("Debes aceptar los términos y condiciones");
   }
 
-  
   if (errores.length > 0) {
     Swal.fire({
       icon: "error",
@@ -46,7 +44,20 @@ document.getElementById("registroForm").addEventListener("submit", function(e) {
     return;
   }
 
- 
+  // ✅ Crear objeto usuario
+  const nuevoUsuario = {
+    nombre: nombre.value.trim(),
+    correo: correo.value.trim(),
+    colegio: colegio.value.trim(),
+    estado: "Activo"
+  };
+
+  // ✅ Guardar en localStorage
+  let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+  usuarios.push(nuevoUsuario);
+  localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+  // ✅ Mensaje de éxito
   Swal.fire({
     position: "top-end",
     icon: "success",
@@ -55,7 +66,8 @@ document.getElementById("registroForm").addEventListener("submit", function(e) {
     timer: 1500
   });
 
+  // ✅ Redirigir al administrador
   setTimeout(() => {
-    window.location.href = "home.html";
+    window.location.href = "administrador.html";
   }, 1500);
 });

@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LlegApp - Crear cuenta</title>
   <link rel="stylesheet" href="../CSS/crear.css">
-
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
@@ -41,7 +40,51 @@
     </div>
   </div>
 
- 
-  <script src="/JS/crear_cuenta.js"></script>
+  <!-- Script que guarda el usuario y redirige -->
+  <script>
+    document.getElementById("registroForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const nombre = document.getElementById("nombre").value.trim();
+      const correo = document.getElementById("correo").value.trim();
+      const colegio = document.getElementById("colegio").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const terminos = document.getElementById("terminos").checked;
+
+      if (nombre === "" || correo === "" || colegio === "" || password === "" || !terminos) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Debes completar todos los campos y aceptar los términos."
+        });
+        return;
+      }
+
+      // Crear objeto usuario
+      const nuevoUsuario = {
+        nombre,
+        correo,
+        colegio,
+        estado: "Activo"
+      };
+
+      // Guardar en localStorage
+      let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+      usuarios.push(nuevoUsuario);
+      localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+      Swal.fire({
+        icon: "success",
+        title: "Cuenta creada correctamente",
+        showConfirmButton: false,
+        timer: 1500
+      });
+
+      // Redirigir al administrador
+      setTimeout(() => {
+        window.location.href = "administrador.html";
+      }, 1500);
+    });
+  </script>
 </body>
 </html>
