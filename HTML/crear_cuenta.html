@@ -18,11 +18,11 @@
       <h2>Crear tu cuenta</h2>
       <p class="subtitle">Regístrate para guardar rutas y recibir alertas</p>
 
-      <form id="registroForm">
-        <input type="text" placeholder="Nombre completo" required id="nombre">
-        <input type="email" placeholder="Correo electrónico" required id="correo">
-        <input type="text" placeholder="Colegio" required id="colegio">
-        <input type="password" placeholder="Contraseña" required id="password">
+      <form  action="" method="post" id="registroForm">
+        <input type="text" placeholder="Nombre completo" required id="nombre" name="nombre">
+        <input type="email" placeholder="Correo electrónico" required id="correo" name="correo">
+        <input type="text" placeholder="Colegio" required id="colegio" name="colegio">
+        <input type="password" placeholder="Contraseña" required id="Contraseña" name="Contraseña">
         
         <label class="checkbox">
           <input type="checkbox" required id="terminos">
@@ -40,7 +40,7 @@
     </div>
   </div>
 
-  <!-- Script que guarda el usuario y redirige -->
+ 
   <script>
     document.getElementById("registroForm").addEventListener("submit", function(e) {
       e.preventDefault();
@@ -60,7 +60,7 @@
         return;
       }
 
-      // Crear objeto usuario
+     
       const nuevoUsuario = {
         nombre,
         correo,
@@ -68,7 +68,7 @@
         estado: "Activo"
       };
 
-      // Guardar en localStorage
+    
       let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
       usuarios.push(nuevoUsuario);
       localStorage.setItem("usuarios", JSON.stringify(usuarios));
@@ -80,7 +80,7 @@
         timer: 1500
       });
 
-      // Redirigir al administrador
+      
       setTimeout(() => {
         window.location.href = "administrador.html";
       }, 1500);
