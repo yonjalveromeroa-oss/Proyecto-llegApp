@@ -31,7 +31,7 @@
         <form id="loginForm">
           <div class="campo">
             <label for="correo">Correo electrónico</label>
-            <input type="email" id="correo" placeholder="correo@ejemplo.com" name="correo" >
+            <input type="email" id="correo" placeholder="correo@ejemplo.com" name="correo">
           </div>
 
           <div class="campo">
@@ -53,6 +53,50 @@
     </div>
   </div>
 
-  <script src="/JS/inicio.js"></script>
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      let correo = document.getElementById("correo").value.trim();
+      let password = document.getElementById("password").value.trim();
+
+      if (correo === "" || password === "") {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Debes completar todos los campos."
+        });
+        return;
+      }
+
+     
+      let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+      let usuarioEncontrado = usuarios.find(u => u.correo === correo);
+
+      if (!usuarioEncontrado) {
+        Swal.fire({
+          icon: "error",
+          title: "Usuario no encontrado",
+          text: "Debes crear una cuenta primero."
+        });
+        return;
+      }
+
+      usuarioEncontrado.estado = "Activo";
+      localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Inicio de sesión correcto",
+        showConfirmButton: false,
+        timer: 1500
+      });
+
+      setTimeout(() => {
+        window.location.href = "administrador.html";
+      }, 1500);
+    });
+  </script>
 </body>
 </html>

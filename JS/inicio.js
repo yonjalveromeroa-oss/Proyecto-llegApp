@@ -27,7 +27,19 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
     return;
   }
 
-  
+ 
+  let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+  let usuarioEncontrado = usuarios.find(u => u.correo === correo.value.trim());
+
+  if (!usuarioEncontrado) {
+    Swal.fire({
+      icon: "error",
+      title: "Usuario no encontrado",
+      text: "Debes crear una cuenta primero."
+    });
+    return;
+  }
+
   Swal.fire({
     position: "top-end",
     icon: "success",

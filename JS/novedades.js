@@ -19,11 +19,11 @@ document.getElementById("formNovedades").addEventListener("submit", function(e) 
     fecha: new Date().toLocaleString()
   };
 
-  // Recuperar novedades anteriores
+
   let novedades = JSON.parse(localStorage.getItem("novedades")) || [];
   novedades.push(novedad);
 
-  // Guardar nuevamente en localStorage
+ 
   localStorage.setItem("novedades", JSON.stringify(novedades));
 
   Swal.fire({
@@ -34,7 +34,7 @@ document.getElementById("formNovedades").addEventListener("submit", function(e) 
     timer: 2000
   });
 
-  // Redirigir al panel de administrador
+ 
   setTimeout(() => {
     window.location.href = "administrador.html";
   }, 2000);

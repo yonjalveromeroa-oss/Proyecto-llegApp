@@ -32,7 +32,6 @@
       <section class="stats">
         <div class="card">
           <h3>Usuarios registrados</h3>
-          <!-- Se agregó el id aquí -->
           <p id="contador-usuarios">0</p>
         </div>
         <div class="card">
@@ -41,7 +40,6 @@
         </div>
         <div class="card">
           <h3>Novedades reportadas</h3>
-          <!-- contador dinámico -->
           <p id="contador-novedades">0</p>
         </div>
       </section>
@@ -59,13 +57,53 @@
             </tr>
           </thead>
           <tbody>
-            <!-- Aquí se insertarán dinámicamente los usuarios desde localStorage -->
+        
           </tbody>
         </table>
       </section>
     </main>
   </div>
 
-  <script src="/JS/admin.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Usuarios
+      let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+      document.getElementById("contador-usuarios").textContent = usuarios.length;
+
+      const tbody = document.querySelector("tbody");
+      tbody.innerHTML = "";
+      usuarios.forEach((usuario, index) => {
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+          <td>${usuario.nombre}</td>
+          <td>${usuario.correo}</td>
+          <td>${usuario.colegio}</td>
+          <td>${usuario.estado}</td>
+          <td>
+            <button onclick="eliminarUsuario(${index})">❌ Eliminar</button>
+          </td>
+        `;
+        tbody.appendChild(fila);
+      });
+
+      let novedades = JSON.parse(localStorage.getItem("novedades")) || [];
+      document.getElementById("contador-novedades").textContent = novedades.length;
+    });
+
+    function eliminarUsuario(index) {
+      let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+      usuarios.splice(index, 1);
+      localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+      Swal.fire({
+        icon: "success",
+        title: "Usuario eliminado",
+        showConfirmButton: false,
+        timer: 1000
+      });
+
+      setTimeout(() => location.reload(), 1000);
+    }
+  </script>
 </body>
 </html>

@@ -18,11 +18,12 @@
       <h2>Crear tu cuenta</h2>
       <p class="subtitle">Regístrate para guardar rutas y recibir alertas</p>
 
-      <form  action="" method="post" id="registroForm">
+      <form action="" method="post" id="registroForm">
         <input type="text" placeholder="Nombre completo" required id="nombre" name="nombre">
         <input type="email" placeholder="Correo electrónico" required id="correo" name="correo">
         <input type="text" placeholder="Colegio" required id="colegio" name="colegio">
-        <input type="password" placeholder="Contraseña" required id="Contraseña" name="Contraseña">
+    
+        <input type="password" placeholder="Contraseña" required id="password" name="password">
         
         <label class="checkbox">
           <input type="checkbox" required id="terminos">
@@ -40,7 +41,6 @@
     </div>
   </div>
 
- 
   <script>
     document.getElementById("registroForm").addEventListener("submit", function(e) {
       e.preventDefault();
@@ -60,7 +60,6 @@
         return;
       }
 
-     
       const nuevoUsuario = {
         nombre,
         correo,
@@ -68,7 +67,6 @@
         estado: "Activo"
       };
 
-    
       let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
       usuarios.push(nuevoUsuario);
       localStorage.setItem("usuarios", JSON.stringify(usuarios));
@@ -80,7 +78,7 @@
         timer: 1500
       });
 
-      
+  
       setTimeout(() => {
         window.location.href = "administrador.html";
       }, 1500);

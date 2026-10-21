@@ -34,28 +34,3 @@ INSERT INTO perfiles (nombre, email, colegio, partida, notificaciones)
 VALUES ('Juan Romero', 'juan.romero@ejemplo.com', 'Colegio San José', 'Parque Principal', 'Activadas');
 
 
-CREATE TABLE editar_perfil (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    email VARCHAR(150) UNIQUE NOT NULL,
-    colegio VARCHAR(150),
-    partida VARCHAR(150),
-    notificaciones ENUM('Activadas', 'Desactivadas') DEFAULT 'Activadas',
-    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
-                         ON UPDATE CURRENT_TIMESTAMP
-);
-
-
-INSERT INTO perfiles (nombre, email, colegio, partida, notificaciones)
-VALUES ('Juan Romero', 'juan.romero@ejemplo.com', 'Colegio San José', 'Parque Principal', 'Activadas');
-
-
-UPDATE perfiles
-SET nombre = 'Juan R. Romero',
-    colegio = 'Colegio Central',
-    partida = 'Plaza Mayor',
-    notificaciones = 'Desactivadas'
-WHERE email = 'juan.romero@ejemplo.com';
-
-
-

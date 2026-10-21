@@ -4,7 +4,7 @@ document.getElementById("registroForm").addEventListener("submit", function(e) {
   let nombre = document.getElementById("nombre");
   let correo = document.getElementById("correo");
   let colegio = document.getElementById("colegio");
-  let password = document.getElementById("password");
+  let password = document.getElementById("password"); 
   let terminos = document.getElementById("terminos");
 
   [nombre, correo, colegio, password].forEach(input => input.classList.remove("error"));
@@ -44,7 +44,7 @@ document.getElementById("registroForm").addEventListener("submit", function(e) {
     return;
   }
 
-  // ✅ Crear objeto usuario
+
   const nuevoUsuario = {
     nombre: nombre.value.trim(),
     correo: correo.value.trim(),
@@ -52,12 +52,12 @@ document.getElementById("registroForm").addEventListener("submit", function(e) {
     estado: "Activo"
   };
 
-  // ✅ Guardar en localStorage
+
   let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
   usuarios.push(nuevoUsuario);
   localStorage.setItem("usuarios", JSON.stringify(usuarios));
 
-  // ✅ Mensaje de éxito
+
   Swal.fire({
     position: "top-end",
     icon: "success",
@@ -66,7 +66,6 @@ document.getElementById("registroForm").addEventListener("submit", function(e) {
     timer: 1500
   });
 
-  // ✅ Redirigir al administrador
   setTimeout(() => {
     window.location.href = "administrador.html";
   }, 1500);

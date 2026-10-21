@@ -60,7 +60,6 @@ localStorage.setItem("perfil", JSON.stringify({
     timer: 2000
   });
 
-  // Redirigir al perfil después de guardar
   setTimeout(() => {
     window.location.href = "perfil.html";
   }, 2000);
