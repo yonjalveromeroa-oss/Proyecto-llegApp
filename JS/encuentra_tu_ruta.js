@@ -1,15 +1,13 @@
 document.querySelectorAll(".btn-fav").forEach(btn => {
   btn.addEventListener("click", function() {
-    let card = this.closest(".route-card");
-    let ruta = card.querySelector("h3").textContent;
-    let estado = card.querySelector(".status").textContent;
+    let rutaNumero = this.getAttribute("data-ruta");
 
     Swal.fire({
-      icon: estado.includes("Fuera") ? "error" : "success",
-      title: "Favoritos",
-      html: `<b>${ruta}</b> guardada en favoritos.<br>Estado actual: ${estado}`,
-      timer: 2500,
-      showConfirmButton: false
+      icon: "success",
+      title: "Ruta guardada",
+      text: `La ruta ${rutaNumero} se ha añadido a tus favoritos`,
+      showConfirmButton: false,
+      timer: 2000
     });
   });
 });
