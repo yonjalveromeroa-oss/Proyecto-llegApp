@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesión - LlegApp</title>
+  <link rel="stylesheet" href="../CSS/iniciar_sesion.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+  <div class="contenedor">
+    <div class="izquierda">
+      <div class="logo-superior">
+        <img src="https://cdn-icons-png.flaticon.com/512/4814/4814142.png" alt="Logo LlegApp">
+        <span class="nombre-app">LlegApp</span>
+      </div>
+      <div class="contenido-central">
+        <p class="lema">Llega a tu colegio a tiempo.<br>
+        Consulta rutas y horarios de manera sencilla.</p>
+        <div class="logo-inferior">
+          <img src="https://cdn-icons-png.flaticon.com/512/4814/4814142.png" alt="Bus escolar">
+        </div>
+      </div>
+    </div>
+
+    <div class="derecha">
+      <div class="login">
+        <h2>Iniciar sesión</h2>
+        <p class="subtitulo">Ingresa a tu cuenta de LlegApp</p>
+
+        <form id="loginForm">
+          <div class="campo">
+            <label for="correo">Correo electrónico</label>
+            <input type="email" id="correo" placeholder="correo@ejemplo.com" name="correo">
+          </div>
+
+          <div class="campo">
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" placeholder="********" name="password">
+          </div>
+
+          <button type="submit">Iniciar sesión</button>
+          <button type="button" class="secundario" onclick="window.location.href='home.html'">
+            Continuar sin cuenta
+          </button>
+        </form>
+
+        <div class="opciones">
+          <span>¿No tienes cuenta?</span>
+          <a href="crear_cuenta.html">Crear cuenta</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      let correo = document.getElementById("correo").value.trim();
+      let password = document.getElementById("password").value.trim();
+
+      if (correo === "" || password === "") {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Debes completar todos los campos."
+        });
+        return;
+      }
+
+     
+      const datos = new FormData(this);
+      datos.append("accion", "login");
+      const respuesta = await fetch("../PHP/usuarios.php", { method: "POST", body: datos });
+      const resultado = await respuesta.json();
+
+      if (!resultado.ok) {
+        Swal.fire({
+          icon: "error",
+          title: "Usuario no encontrado",
+          text: resultado.mensaje
+        });
+        return;
+      }
+
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Inicio de sesión correcto",
+        showConfirmButton: false,
+        timer: 1500
+      });
+
+      setTimeout(() => {
+        window.location.href = "administrador.html";
+      }, 1500);
+    });
+  </script>
+</body>
+</html>

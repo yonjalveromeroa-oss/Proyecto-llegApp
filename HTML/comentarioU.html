@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Novedad recibida - LlegApp</title>
+  <link rel="stylesheet" href="../CSS/comentarioU.css">
+</head>
+<body>
+  <div class="novedad-container">
+    <h2>📩 Mensaje recibido</h2>
+    <div id="mensaje-novedad" class="mensaje-card">
+      <p>No hay novedades registradas.</p>
+    </div>
+
+    <div class="opciones">
+      <a href="administrador.html" class="btn-volver">⬅️ Volver al Panel</a>
+    </div>
+  </div>
+
+<script type="module">
+  const mensajeNovedad = document.getElementById("mensaje-novedad");
+  const novedades = await (await fetch("../PHP/usuarios.php?accion=novedades")).json();
+
+  if (novedades.length > 0) {
+    mensajeNovedad.innerHTML = "";
+    novedades.forEach((data, index) => {
+      mensajeNovedad.innerHTML += `
+        <div class="mensaje">
+          <p><strong>Novedad #${index + 1}</strong></p>
+          <p><strong>Tipo de novedad:</strong> ${data.tipo}</p>
+          <p><strong>Comentario:</strong></p>
+          <blockquote>${data.comentarios}</blockquote>
+          <p><em>Fecha de envío:</em> ${data.fecha}</p>
+        </div>
+        <hr>
+      `;
+    });
+  }
+</script>
+
+</body>
+</html>

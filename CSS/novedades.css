@@ -1,0 +1,109 @@
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+
+.novedades-form {
+  max-width: 500px;
+  margin: 60px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+
+.novedades-form h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #0d6efd;
+  font-size: 24px;
+}
+
+.novedades-form textarea {
+  width: 80%;             
+  margin: 0 auto 20px auto; 
+  display: block;           
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+  resize: none;            
+}
+
+
+.novedades-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.novedades-form select,
+.novedades-form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.novedades-form select:focus,
+.novedades-form textarea:focus {
+  border-color: #0d6efd;
+  outline: none;
+}
+
+
+.novedades-form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #0d6efd;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.novedades-form button:hover {
+  background-color: #084298;
+}
+
+
+@media (max-width: 600px) {
+  .novedades-form {
+    margin: 20px;
+    padding: 20px;
+  }
+}
+.opciones {
+  text-align: center;   
+  margin-top: 15px;     
+}
+
+.home-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #0d6efd;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.home-btn:hover {
+  background-color: #084298;
+}
+

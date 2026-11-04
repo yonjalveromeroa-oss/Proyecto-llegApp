@@ -1,0 +1,117 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+.logo-superior {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-superior img {
+  width: 45px;
+  height: 45px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+header .logo {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+header nav a {
+  margin-left: 25px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+  transition: opacity 0.3s;
+}
+
+header nav a:hover {
+  opacity: 0.8;
+}
+
+.container {
+  padding: 40px;
+}
+
+.container h2 {
+  color: #0d6efd;
+  margin-bottom: 10px;
+}
+
+.container p {
+  margin-bottom: 20px;
+}
+
+.tabs {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.tab {
+  padding: 10px 20px;
+  border: 1px solid #0d6efd;
+  background: #fff;
+  color: #0d6efd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.tab.active,
+.tab:hover {
+  background: #0d6efd;
+  color: #fff;
+}
+
+.horarios .ruta {
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.ruta h3 {
+  color: #0d6efd;
+  margin-bottom: 8px;
+}
+
+.status {
+  font-weight: bold;
+}
+
+.en-servicio {
+  color: #198754;
+}
+
+.fuera-servicio {
+  color: #dc3545;
+}
+
+.nota {
+  font-size: 14px;
+  color: #555;
+  margin-top: 20px;
+}
+
