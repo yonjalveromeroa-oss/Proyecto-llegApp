@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Novedad recibida - LlegApp</title>
-  <link rel="stylesheet" href="/CSS/comentarioU.css">
+  <link rel="stylesheet" href="../CSS/comentarioU.css">
 </head>
 <body>
   <div class="novedad-container">
@@ -18,9 +18,9 @@
     </div>
   </div>
 
-<script>
+<script type="module">
   const mensajeNovedad = document.getElementById("mensaje-novedad");
-  const novedades = JSON.parse(localStorage.getItem("novedades")) || [];
+  const novedades = await (await fetch("../PHP/usuarios.php?accion=novedades")).json();
 
   if (novedades.length > 0) {
     mensajeNovedad.innerHTML = "";

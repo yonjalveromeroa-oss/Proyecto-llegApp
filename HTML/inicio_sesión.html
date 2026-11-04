@@ -54,7 +54,7 @@
   </div>
 
   <script>
-    document.getElementById("loginForm").addEventListener("submit", function(e) {
+    document.getElementById("loginForm").addEventListener("submit", async function(e) {
       e.preventDefault();
 
       let correo = document.getElementById("correo").value.trim();
@@ -70,20 +70,19 @@
       }
 
      
-      let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-      let usuarioEncontrado = usuarios.find(u => u.correo === correo);
+      const datos = new FormData(this);
+      datos.append("accion", "login");
+      const respuesta = await fetch("../PHP/usuarios.php", { method: "POST", body: datos });
+      const resultado = await respuesta.json();
 
-      if (!usuarioEncontrado) {
+      if (!resultado.ok) {
         Swal.fire({
           icon: "error",
           title: "Usuario no encontrado",
-          text: "Debes crear una cuenta primero."
+          text: resultado.mensaje
         });
         return;
       }
-
-      usuarioEncontrado.estado = "Activo";
-      localStorage.setItem("usuarios", JSON.stringify(usuarios));
 
       Swal.fire({
         position: "top-end",

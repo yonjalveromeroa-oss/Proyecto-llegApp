@@ -1,4 +1,4 @@
-document.getElementById("editarPerfilForm").addEventListener("submit", function(e) {
+document.getElementById("editarPerfilForm").addEventListener("submit", async function(e) {
   e.preventDefault();
 
   let nombre = document.getElementById("nombre");
@@ -43,13 +43,13 @@ document.getElementById("editarPerfilForm").addEventListener("submit", function(
     return;
   }
   
-localStorage.setItem("perfil", JSON.stringify({
-  nombre: nombre.value.trim(),
-  email: email.value.trim(),
-  colegio: colegio.value.trim(),
-  partida: partida.value.trim(),
-  notificaciones: notificaciones.value
-}));
+const datos = new FormData();
+datos.append("nombre", nombre.value.trim());
+datos.append("email", email.value.trim());
+datos.append("colegio", colegio.value.trim());
+datos.append("partida", partida.value.trim());
+datos.append("notificaciones", notificaciones.value);
+await fetch("../PHP/perfiles.php", { method: "POST", body: datos });
 
 
   Swal.fire({

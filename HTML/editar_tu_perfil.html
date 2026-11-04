@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>LlegApp - Editar perfil</title>
-  <link rel="stylesheet" href="/CSS/editar_tu_perfil.css">
+  <link rel="stylesheet" href="../CSS/editar_tu_perfil.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
@@ -29,22 +29,22 @@
       <form action="" method="post" id="editarPerfilForm">
         <div class="form-group">
           <label for="nombre">Nombre</label>
-          <input type="text" id="nombre" value="Juan Romero" name="nombre">
+          <input type="text" id="nombre" value="" name="nombre">
         </div>
 
         <div class="form-group">
           <label for="email">Correo electrónico</label>
-          <input type="email" id="email" value="juan.romero@ejemplo.com" name="email">
+          <input type="email" id="email" value="" name="email">
         </div>
 
         <div class="form-group">
           <label for="colegio">Colegio</label>
-          <input type="text" id="colegio" value="Colegio San José" name="colegio">
+          <input type="text" id="colegio"  name="colegio">
         </div>
 
         <div class="form-group">
           <label for="partida">Punto de partida</label>
-          <input type="text" id="partida" value="Parque Principal" name="partida">
+          <input type="text" id="partida" value="" name="partida">
         </div>
 
         <div class="form-group">
@@ -67,12 +67,12 @@
   <footer>
     <p>LlegApp · Transporte público para estudiantes</p>
   </footer>
-    <script src="/JS/editar.js"></script>
+    <script src="../JS/editar.js"></script>
 
 </body>
 <script>
-  window.addEventListener("DOMContentLoaded", () => {
-    let perfil = JSON.parse(localStorage.getItem("perfil"));
+  window.addEventListener("DOMContentLoaded", async () => {
+    let perfil = await (await fetch("../PHP/perfiles.php")).json();
 
     if (perfil) {
      

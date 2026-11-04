@@ -15,8 +15,8 @@ CREATE TABLE usuarios (
 
 INSERT INTO usuarios (nombre, correo, colegio, password, estado)
 VALUES 
-('Juan Pérez', 'juan.perez@ejemplo.com', 'Colegio Central', '1234seguro', 'Activo'),
-('María Gómez', 'maria.gomez@ejemplo.com', 'Colegio San José', 'claveSegura', 'Activo');
+('Juan Pérez', 'juan.perez@ejemplo.com', 'Colegio Central', '$2y$10$zV5Bn4RfZaQ9Zgdd/MXLG.yrCCUio3Xd4OW10n1tJYwyBfcBRpvtu', 'Activo'),
+('María Gómez', 'maria.gomez@ejemplo.com', 'Colegio San José', '$2y$10$S4NDFykWOyIRc3nA8Q09GuFdKyDfUpR268iU8WP6LfEisOIS1H9pq', 'Activo');
 
 
 CREATE TABLE perfiles (
@@ -34,3 +34,11 @@ INSERT INTO perfiles (nombre, email, colegio, partida, notificaciones)
 VALUES ('Juan Romero', 'juan.romero@ejemplo.com', 'Colegio San José', 'Parque Principal', 'Activadas');
 
 
+
+
+CREATE TABLE novedades (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tipo VARCHAR(30) NOT NULL,
+    comentarios TEXT NOT NULL,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

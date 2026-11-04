@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Novedades</title>
-  <link rel="stylesheet" href="/CSS/novedades.css">
+  <link rel="stylesheet" href="../CSS/novedades.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
@@ -31,7 +31,7 @@
   </section>
 
   <script>
-    document.getElementById("formNovedades").addEventListener("submit", function(e) {
+    document.getElementById("formNovedades").addEventListener("submit", async function(e) {
       e.preventDefault();
 
       const tipo = document.getElementById("tipo").value.trim();
@@ -46,18 +46,9 @@
         return;
       }
 
-      const novedad = {
-        tipo,
-        comentarios,
-        fecha: new Date().toLocaleString()
-      };
-
-   
-      let novedades = JSON.parse(localStorage.getItem("novedades")) || [];
-      novedades.push(novedad);
-
-   
-      localStorage.setItem("novedades", JSON.stringify(novedades));
+      const datos = new FormData(this);
+      datos.append("accion", "novedad");
+      await fetch("../PHP/usuarios.php", { method: "POST", body: datos });
 
       Swal.fire({
         icon: "success",

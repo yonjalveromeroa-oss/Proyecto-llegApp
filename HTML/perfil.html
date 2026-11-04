@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>LlegApp - Mi perfil</title>
-  <link rel="stylesheet" href="/CSS/perfil.css">
+  <link rel="stylesheet" href="../CSS/perfil.css">
 </head>
 <body>
  
@@ -56,8 +56,8 @@
 </body>
 
 <script>
-  window.addEventListener("DOMContentLoaded", () => {
-    let perfil = JSON.parse(localStorage.getItem("perfil"));
+  window.addEventListener("DOMContentLoaded", async () => {
+    let perfil = await (await fetch("../PHP/perfiles.php")).json();
 
     if (perfil) {
       

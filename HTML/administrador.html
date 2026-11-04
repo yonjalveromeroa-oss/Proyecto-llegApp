@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel de Administrador - LlegApp</title>
-  <link rel="stylesheet" href="/CSS/administrador.css">
+  <link rel="stylesheet" href="../CSS/administrador.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
@@ -65,9 +65,9 @@
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", async () => {
       // Usuarios
-      let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+      let usuarios = await (await fetch("../PHP/usuarios.php?accion=listar")).json();
       document.getElementById("contador-usuarios").textContent = usuarios.length;
 
       const tbody = document.querySelector("tbody");
@@ -80,20 +80,21 @@
           <td>${usuario.colegio}</td>
           <td>${usuario.estado}</td>
           <td>
-            <button onclick="eliminarUsuario(${index})">❌ Eliminar</button>
+            <button onclick="eliminarUsuario(${usuario.id})">❌ Eliminar</button>
           </td>
         `;
         tbody.appendChild(fila);
       });
 
-      let novedades = JSON.parse(localStorage.getItem("novedades")) || [];
+      let novedades = await (await fetch("../PHP/usuarios.php?accion=novedades")).json();
       document.getElementById("contador-novedades").textContent = novedades.length;
     });
 
-    function eliminarUsuario(index) {
-      let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-      usuarios.splice(index, 1);
-      localStorage.setItem("usuarios", JSON.stringify(usuarios));
+    async function eliminarUsuario(id) {
+      const datos = new FormData();
+      datos.append("accion", "eliminar");
+      datos.append("id", id);
+      await fetch("../PHP/usuarios.php", { method: "POST", body: datos });
 
       Swal.fire({
         icon: "success",

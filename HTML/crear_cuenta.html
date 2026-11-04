@@ -42,7 +42,7 @@
   </div>
 
   <script>
-    document.getElementById("registroForm").addEventListener("submit", function(e) {
+    document.getElementById("registroForm").addEventListener("submit", async function(e) {
       e.preventDefault();
 
       const nombre = document.getElementById("nombre").value.trim();
@@ -60,16 +60,13 @@
         return;
       }
 
-      const nuevoUsuario = {
-        nombre,
-        correo,
-        colegio,
-        estado: "Activo"
-      };
+      const respuesta = await fetch("../PHP/usuarios.php", { method: "POST", body: new FormData(this) });
+      const resultado = await respuesta.json();
 
-      let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-      usuarios.push(nuevoUsuario);
-      localStorage.setItem("usuarios", JSON.stringify(usuarios));
+      if (!resultado.ok) {
+        Swal.fire({ icon: "error", title: "Oops...", text: resultado.mensaje });
+        return;
+      }
 
       Swal.fire({
         icon: "success",
