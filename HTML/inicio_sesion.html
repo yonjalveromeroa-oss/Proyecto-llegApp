@@ -93,7 +93,7 @@
       });
 
       setTimeout(() => {
-        window.location.href = "administrador.html";
+        window.location.href = resultado.rol === "admin" ? "administrador.html" : "home.html";
       }, 1500);
     });
   </script>

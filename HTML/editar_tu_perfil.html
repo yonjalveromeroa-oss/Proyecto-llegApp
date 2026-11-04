@@ -24,7 +24,7 @@
 
   <main class="container">
     <section class="edit-card">
-      <div class="circle">JR</div>
+      <div class="circle"></div>
       <h2>Editar perfil</h2>
       <form action="" method="post" id="editarPerfilForm">
         <div class="form-group">
@@ -74,15 +74,18 @@
   window.addEventListener("DOMContentLoaded", async () => {
     let perfil = await (await fetch("../PHP/perfiles.php")).json();
 
-    if (perfil) {
-     
+    if (!perfil) {
+      window.location.href = "inicio_sesion.html";
+      return;
+    }
+    {
       document.querySelector(".circle").textContent = perfil.nombre.split(" ").map(p => p[0]).join("").toUpperCase();
 
    
       document.getElementById("nombre").value = perfil.nombre;
       document.getElementById("email").value = perfil.email;
       document.getElementById("colegio").value = perfil.colegio;
-      document.getElementById("partida").value = perfil.partida;
+      document.getElementById("partida").value = perfil.partida || "";
       document.getElementById("notificaciones").value = perfil.notificaciones;
     }
   });

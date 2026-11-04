@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Ruta 205</title>
+  <title>Ruta - LlegApp</title>
   <link rel="stylesheet" href="../CSS/mapa.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
@@ -10,28 +10,28 @@
 <body>
   <div class="container">
     <div class="map">
-      <h2 id="ruta-nombre">Ruta 205</h2>
-      <p id="ruta-descripcion">Parque Principal → Colegio San José</p>
+      <h2 id="ruta-nombre">Cargando ruta...</h2>
+      <p id="ruta-descripcion"></p>
       <div id="mapid"></div>
     </div>
 
     <div class="card">
       <h3>Detalles de la ruta</h3>
       <ul>
-        <li>🟢 En servicio</li>
-        <li>⏱ Tiempo: 28 min</li>
-        <li>💰 Costo: $2.400</li>
-        <li>🪧 Paraderos: 4</li>
-       
+        <li id="ruta-estado"></li>
+        <li id="ruta-duracion"></li>
+        <li id="ruta-costo"></li>
+        <li id="ruta-paraderos"></li>
       </ul>
       <button class="save" id="guardarRuta">Guardar ruta</button>
       <div class="opciones">
-        
         <a href="home.html" class="home-btn">Home</a>
       </div>
     </div>
- 
+  </div>
+
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="../JS/rutas_comun.js"></script>
   <script>
     var map = L.map('mapid').setView([5.0703, -75.5138], 14);
 
@@ -40,10 +40,10 @@
     }).addTo(map);
 
     var puntosRuta = [
-      [5.0703, -75.5138], 
-      [5.0720, -75.5145], 
-      [5.0740, -75.5160], 
-      [5.0760, -75.5175]  
+      [5.0703, -75.5138],
+      [5.0720, -75.5145],
+      [5.0740, -75.5160],
+      [5.0760, -75.5175]
     ];
 
     var ruta = L.polyline(puntosRuta, {color: 'blue'}).addTo(map);
@@ -61,17 +61,36 @@
 
     map.fitBounds(ruta.getBounds());
 
-    document.getElementById("guardarRuta").addEventListener("click", function() {
-      Swal.fire({
-        icon: "success",
-        title: "Ruta guardada",
-        text: "La Ruta 205 se ha añadido a tus favoritos",
-        showConfirmButton: false,
-        timer: 2000
-      });
-    });
-    
+    // Datos de la ruta desde la base: mapa.html?numero=205
+    const numero = new URLSearchParams(location.search).get("numero");
+    const iconos = { "en-servicio": "🟢", "retraso": "🟡", "fuera-servicio": "🔴" };
+
+    async function cargarRuta() {
+      const resp = await fetch("../PHP/rutas.php?accion=catalogo&numero=" + encodeURIComponent(numero || ""));
+      const datos = await resp.json();
+      if (!datos.ok) {
+        document.getElementById("ruta-nombre").textContent = "Ruta no encontrada";
+        document.getElementById("guardarRuta").disabled = true;
+        return;
+      }
+      const r = datos.ruta;
+      document.title = "Ruta " + r.numero;
+      document.getElementById("ruta-nombre").textContent = "Ruta " + r.numero;
+      document.getElementById("ruta-descripcion").textContent = r.descripcion;
+      document.getElementById("ruta-estado").textContent = iconos[claseEstado(r.estado)] + " " + r.estado;
+      document.getElementById("ruta-duracion").textContent = "⏱ Tiempo: " + r.duracion;
+      document.getElementById("ruta-costo").textContent = "💰 Costo: " + r.costo;
+      document.getElementById("ruta-paraderos").textContent = "🪧 Paraderos: " + r.paraderos;
+
+      if (claseEstado(r.estado) === "fuera-servicio") {
+        Swal.fire({ icon: "error", title: "Ruta no disponible", text: `La Ruta ${r.numero} está fuera de servicio actualmente` });
+      } else if (claseEstado(r.estado) === "retraso") {
+        Swal.fire({ icon: "warning", title: "Ruta con retraso", text: `La Ruta ${r.numero} presenta retrasos` });
+      }
+    }
+
+    document.getElementById("guardarRuta").addEventListener("click", () => guardarRutaFavorita(numero));
+    cargarRuta();
   </script>
-  <script src="/JS/mapa.js"></script>
 </body>
 </html>

@@ -26,49 +26,54 @@
 
   
   <main class="container">
- 
+
     <section class="profile-card">
-      <div class="circle">JR</div>
-      <h2>Juan Romero</h2>
-      <p>Email: juan.romero@ejemplo.com</p>
-      <p>Colegio: Colegio San José</p>
-      <p>Punto de partida: Parque Principal</p>
-      <p>Rutas guardadas: 3</p>
-      <p>Notificaciones: Activadas</p>
-   <button class="btn-blue" onclick="window.location.href='editar_tu_perfil.html'">Editar perfil</button>
+      <div class="circle" id="perfil-iniciales"></div>
+      <h2 id="perfil-nombre">Cargando...</h2>
+      <p id="perfil-email"></p>
+      <p id="perfil-colegio"></p>
+      <p id="perfil-partida"></p>
+      <p id="perfil-total-rutas"></p>
+      <p id="perfil-notificaciones"></p>
+      <button class="btn-blue" onclick="window.location.href='editar_tu_perfil.html'">Editar perfil</button>
     </section>
 
-    
+
     <section class="routes">
       <h2>Mis rutas guardadas</h2>
-      <ul>
-        <li>Ruta 205</li>
-        <li>Ruta 132</li>
-        <li>Ruta Colegio — Casa</li>
-      </ul>
-     <button class="btn-purple" onclick="window.location.href='encuentra_tu_ruta.html'">Ver rutas</button>
+      <ul id="perfil-rutas"></ul>
+      <button class="btn-purple" onclick="window.location.href='encuentra_tu_ruta.html'">Ver rutas</button>
     </section>
   </main>
 
   <footer>
     <p>LlegApp · Transporte público para estudiantes</p>
   </footer>
+
+  <script src="../JS/rutas_comun.js"></script>
+  <script>
+    window.addEventListener("DOMContentLoaded", async () => {
+      const perfil = await (await fetch("../PHP/perfiles.php")).json();
+
+      // Sin sesión no hay perfil: se manda al login
+      if (!perfil) {
+        window.location.href = "inicio_sesion.html";
+        return;
+      }
+
+      document.getElementById("perfil-iniciales").textContent = perfil.nombre.split(" ").map(p => p[0]).join("").toUpperCase();
+      document.getElementById("perfil-nombre").textContent = perfil.nombre;
+      document.getElementById("perfil-email").textContent = "Email: " + perfil.email;
+      document.getElementById("perfil-colegio").textContent = "Colegio: " + perfil.colegio;
+      document.getElementById("perfil-partida").textContent = "Punto de partida: " + (perfil.partida || "No indicado");
+      document.getElementById("perfil-notificaciones").textContent = "Notificaciones: " + perfil.notificaciones;
+
+      const rutas = await obtenerRutasGuardadas() || [];
+      document.getElementById("perfil-total-rutas").textContent = "Rutas guardadas: " + rutas.length;
+      document.getElementById("perfil-rutas").innerHTML = rutas.length
+        ? rutas.map(r => `<li>Ruta ${esc(r.numero)}</li>`).join("")
+        : "<li>Aún no tienes rutas guardadas.</li>";
+    });
+  </script>
 </body>
-
-<script>
-  window.addEventListener("DOMContentLoaded", async () => {
-    let perfil = await (await fetch("../PHP/perfiles.php")).json();
-
-    if (perfil) {
-      
-      document.querySelector(".circle").textContent = perfil.nombre.split(" ").map(p => p[0]).join("").toUpperCase();
-      document.querySelector("h2").textContent = perfil.nombre;
-      document.querySelector("p:nth-of-type(1)").textContent = "Email: " + perfil.email;
-      document.querySelector("p:nth-of-type(2)").textContent = "Colegio: " + perfil.colegio;
-      document.querySelector("p:nth-of-type(3)").textContent = "Punto de partida: " + perfil.partida;
-      document.querySelector("p:nth-of-type(5)").textContent = "Notificaciones: " + perfil.notificaciones;
-    }
-  });
-</script>
-
 </html>

@@ -2,11 +2,31 @@
 session_start();
 header("Content-Type: application/json; charset=utf-8");
 require __DIR__ . "/conexion.php";
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT); // para que los try/catch funcionen
 
 function responderRuta($datos, $codigo = 200) {
     http_response_code($codigo);
     echo json_encode($datos, JSON_UNESCAPED_UNICODE);
     exit;
+}
+
+// Catálogo de rutas (público): rutas.php?accion=catalogo  o  rutas.php?accion=catalogo&numero=205
+if ($_SERVER["REQUEST_METHOD"] === "GET" && ($_GET["accion"] ?? "") === "catalogo") {
+    try {
+        if (isset($_GET["numero"])) {
+            $numero = trim($_GET["numero"]);
+            $stmt = $conn->prepare("SELECT * FROM rutas WHERE numero = ? LIMIT 1");
+            $stmt->bind_param("s", $numero);
+            $stmt->execute();
+            $ruta = $stmt->get_result()->fetch_assoc();
+            if (!$ruta) responderRuta(["ok" => false, "mensaje" => "La ruta no existe."], 404);
+            responderRuta(["ok" => true, "ruta" => $ruta]);
+        }
+        $result = $conn->query("SELECT * FROM rutas ORDER BY numero");
+        responderRuta(["ok" => true, "rutas" => $result->fetch_all(MYSQLI_ASSOC)]);
+    } catch (mysqli_sql_exception $e) {
+        responderRuta(["ok" => false, "mensaje" => "No se pudieron consultar las rutas."], 500);
+    }
 }
 
 if (empty($_SESSION["usuario_id"])) responderRuta(["ok" => false, "mensaje" => "Inicia sesión para guardar rutas."], 401);

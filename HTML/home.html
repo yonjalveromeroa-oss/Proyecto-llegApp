@@ -70,31 +70,26 @@
 
   <section class="cards">
     <h2>Novedades</h2>
-    <div class="card-container">
-      
-     
-      <a href="novedades.html" class="card out">
-        <img src="https://cdn-icons-png.flaticon.com/512/565/565545.png" alt="Fuera de servicio">
-        <h3>Ruta 109</h3>
-        <p>Centro</p>
-      </a>
-
-     
-      <a href="novedades.html" class="card delayed">
-        <img src="https://cdn-icons-png.flaticon.com/512/565/565545.png" alt="Retrasada">
-        <h3>Ruta 205</h3>
-        <p>carrera 23</p>
-      </a>
-
-      
-      <a href="novedades.html" class="card active">
-        <img src="https://cdn-icons-png.flaticon.com/512/565/565545.png" alt="En ruta">
-        <h3>Ruta 139</h3>
-        <p>Terminal</p>
-      </a>
-
+    <div class="card-container" id="novedades-rutas">
+      <p>Cargando estado de las rutas...</p>
     </div>
   </section>
 
+  <script src="../JS/rutas_comun.js"></script>
+  <script>
+    // Tarjetas de novedades según el estado real de cada ruta
+    const claseTarjeta = { "fuera-servicio": "out", "retraso": "delayed", "en-servicio": "active" };
+    obtenerRutas().then(rutas => {
+      document.getElementById("novedades-rutas").innerHTML = rutas.map(ruta => `
+        <a href="novedades.html" class="card ${claseTarjeta[claseEstado(ruta.estado)]}">
+          <img src="https://cdn-icons-png.flaticon.com/512/565/565545.png" alt="${esc(ruta.estado)}">
+          <h3>Ruta ${esc(ruta.numero)}</h3>
+          <p>${esc(ruta.estado)}</p>
+        </a>
+      `).join("") || "<p>No hay rutas registradas.</p>";
+    }).catch(() => {
+      document.getElementById("novedades-rutas").innerHTML = "<p>No se pudo cargar el estado de las rutas.</p>";
+    });
+  </script>
 </body>
 </html>

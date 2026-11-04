@@ -30,7 +30,9 @@ if ($accion == "login") {
 
     if ($usuario && password_verify($_POST['password'], $usuario['password'])) {
         $_SESSION['correo'] = $usuario['correo'];
-        echo json_encode(["ok" => true]);
+        $_SESSION['usuario_id'] = (int) $usuario['id'];
+        $_SESSION['rol'] = $usuario['rol'] ?? 'usuario';
+        echo json_encode(["ok" => true, "rol" => $_SESSION['rol']]);
     } else {
         echo json_encode(["ok" => false, "mensaje" => "Correo o contraseña incorrectos."]);
     }

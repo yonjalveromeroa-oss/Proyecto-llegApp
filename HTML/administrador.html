@@ -17,7 +17,6 @@
         <li><a href="encuentra_tu_ruta.html">🚌 Encuentra tu ruta</a></li>
         <li><a href="horario.html">⏱ Horarios</a></li>
         <li><a href="comentarioU.html">⚠️ Novedades</a></li>
-        <li><a href="mapa.html">🗺️ Mapa de ruta</a></li>
         <li><a href="perfil.html">👤 Perfil</a></li>
         <li><a href="editar_tu_perfil.html">✏️ Editar perfil</a></li>
       </ul>
@@ -36,7 +35,7 @@
         </div>
         <div class="card">
           <h3>Rutas activas</h3>
-          <p>1</p>
+          <p id="contador-rutas">0</p>
         </div>
         <div class="card">
           <h3>Novedades reportadas</h3>
@@ -64,6 +63,7 @@
     </main>
   </div>
 
+  <script src="../JS/rutas_comun.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       // Usuarios
@@ -88,6 +88,11 @@
 
       let novedades = await (await fetch("../PHP/usuarios.php?accion=novedades")).json();
       document.getElementById("contador-novedades").textContent = novedades.length;
+
+      // Rutas activas = las que no están fuera de servicio
+      const rutas = await obtenerRutas();
+      document.getElementById("contador-rutas").textContent =
+        rutas.filter(r => claseEstado(r.estado) !== "fuera-servicio").length;
     });
 
     async function eliminarUsuario(id) {
