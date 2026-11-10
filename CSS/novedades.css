@@ -5,6 +5,11 @@ body {
   color: #333;
   margin: 0;
   padding: 0;
+  overflow-wrap: break-word;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 
@@ -53,6 +58,7 @@ body {
   border-radius: 8px;
   margin-bottom: 20px;
   font-size: 14px;
+  font-family: inherit;
   transition: border-color 0.3s;
 }
 

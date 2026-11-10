@@ -36,7 +36,80 @@ try {
         $stmt = $conn->prepare("SELECT r.numero, r.descripcion, r.duracion, r.costo, r.paraderos, r.estado, r.link FROM rutas_guardadas g INNER JOIN rutas r ON r.numero = g.numero WHERE g.usuario_id = ? ORDER BY g.id DESC");
         $stmt->bind_param("i", $usuarioId);
         $stmt->execute();
-        responderRuta(["ok" => true, "rutas" => $stmt->get_result()->fetch_all(MYSQLI_ASSOC)]);
+        responderRuta(["ok" => true, "rutas" => $stmt->get_result()->fetch_all(MYSQLI_ASSOC), "rol" => $_SESSION["rol"] ?? "usuario"]);
+    }
+
+    // Acciones del administrador (POST accion=...):
+    //   crear         -> nueva ruta con todos sus datos
+    //   editar        -> cambia todos los datos de una ruta existente
+    //   horario       -> cambia solo salidas, frecuencia y estado
+    //   eliminar_ruta -> borra la ruta (y se quita de las rutas guardadas de todos)
+    $accion = $_POST["accion"] ?? "";
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && in_array($accion, ["crear", "editar", "horario", "eliminar_ruta"], true)) {
+        if (($_SESSION["rol"] ?? "") !== "admin") responderRuta(["ok" => false, "mensaje" => "Solo un administrador puede hacer esto."], 403);
+
+        $numero = trim($_POST["numero"] ?? "");
+        if ($numero === "" || mb_strlen($numero) > 10) responderRuta(["ok" => false, "mensaje" => "El número de ruta es obligatorio (máx. 10 caracteres)."], 422);
+
+        $existe = $conn->prepare("SELECT numero FROM rutas WHERE numero = ? LIMIT 1");
+        $existe->bind_param("s", $numero);
+        $existe->execute();
+        $rutaExiste = (bool)$existe->get_result()->fetch_assoc();
+        if ($accion !== "crear" && !$rutaExiste) responderRuta(["ok" => false, "mensaje" => "La ruta no existe."], 404);
+        if ($accion === "crear" && $rutaExiste) responderRuta(["ok" => false, "mensaje" => "Ya existe una ruta con el número $numero."], 409);
+
+        if ($accion === "eliminar_ruta") {
+            $stmt = $conn->prepare("DELETE FROM rutas WHERE numero = ?");
+            $stmt->bind_param("s", $numero);
+            $stmt->execute();
+            responderRuta(["ok" => true, "mensaje" => "Ruta $numero eliminada."]);
+        }
+
+        $salidas = trim($_POST["salidas"] ?? "");
+        $frecuencia = trim($_POST["frecuencia"] ?? "");
+        $estado = trim($_POST["estado"] ?? "");
+        if (!in_array($estado, ["En servicio", "Retraso", "Fuera de servicio"], true)) responderRuta(["ok" => false, "mensaje" => "Estado no válido."], 422);
+        if (mb_strlen($salidas) > 100 || mb_strlen($frecuencia) > 30) responderRuta(["ok" => false, "mensaje" => "Las salidas (máx. 100) o la frecuencia (máx. 30) son muy largas."], 422);
+
+        if ($accion === "horario") {
+            $stmt = $conn->prepare("UPDATE rutas SET salidas = ?, frecuencia = ?, estado = ? WHERE numero = ?");
+            $stmt->bind_param("ssss", $salidas, $frecuencia, $estado, $numero);
+            $stmt->execute();
+            responderRuta(["ok" => true, "mensaje" => "Horario de la ruta $numero actualizado."]);
+        }
+
+        $descripcion = trim($_POST["descripcion"] ?? "");
+        $duracion = trim($_POST["duracion"] ?? "");
+        $costo = trim($_POST["costo"] ?? "");
+        $paraderos = (int)($_POST["paraderos"] ?? 0);
+        if ($descripcion === "" || $duracion === "" || $costo === "" || $paraderos < 1) {
+            responderRuta(["ok" => false, "mensaje" => "Completa descripción, duración, costo y paraderos."], 422);
+        }
+        if (mb_strlen($descripcion) > 255 || mb_strlen($duracion) > 30 || mb_strlen($costo) > 30) {
+            responderRuta(["ok" => false, "mensaje" => "Alguno de los campos es demasiado largo."], 422);
+        }
+        // Coordenadas de los paraderos: "lat,lng; lat,lng; ..." (opcional)
+        $puntos = [];
+        foreach (preg_split('/\s*;\s*/', trim($_POST["coordenadas"] ?? ""), -1, PREG_SPLIT_NO_EMPTY) as $par) {
+            if (!preg_match('/^(-?\d{1,2}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)$/', $par, $m) || abs((float)$m[1]) > 90 || abs((float)$m[2]) > 180) {
+                responderRuta(["ok" => false, "mensaje" => "Coordenada no válida: \"$par\". Usa el formato 5.0703,-75.5138; 5.0720,-75.5145"], 422);
+            }
+            $puntos[] = $m[1] . "," . $m[2];
+        }
+        if (count($puntos) > 100) responderRuta(["ok" => false, "mensaje" => "Máximo 100 paraderos en el mapa."], 422);
+        $coordenadas = $puntos ? implode("; ", $puntos) : null;
+
+        if ($accion === "editar") {
+            $stmt = $conn->prepare("UPDATE rutas SET descripcion = ?, duracion = ?, costo = ?, paraderos = ?, estado = ?, salidas = ?, frecuencia = ?, coordenadas = ? WHERE numero = ?");
+            $stmt->bind_param("sssisssss", $descripcion, $duracion, $costo, $paraderos, $estado, $salidas, $frecuencia, $coordenadas, $numero);
+            $stmt->execute();
+            responderRuta(["ok" => true, "mensaje" => "Ruta $numero actualizada."]);
+        }
+
+        $stmt = $conn->prepare("INSERT INTO rutas (numero, descripcion, duracion, costo, paraderos, estado, link, salidas, frecuencia, coordenadas) VALUES (?, ?, ?, ?, ?, ?, 'mapa.html', ?, ?, ?)");
+        $stmt->bind_param("ssssissss", $numero, $descripcion, $duracion, $costo, $paraderos, $estado, $salidas, $frecuencia, $coordenadas);
+        $stmt->execute();
+        responderRuta(["ok" => true, "mensaje" => "Ruta $numero creada correctamente."]);
     }
 
     $datos = $_POST;

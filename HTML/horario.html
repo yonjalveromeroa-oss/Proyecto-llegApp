@@ -15,7 +15,7 @@
       </div>
     <nav>
       <a href="home.html">Inicio</a>
-      <a href="rutas.html">Rutas</a>
+      <a href="encuentra_tu_ruta.html">Rutas</a>
       <a href="novedades.html">Novedades</a>
       <a href="perfil.html">Perfil</a>
       <a href="rutas_guardadas.html">Rutas guardadas</a>
@@ -29,7 +29,7 @@
 
    
     <div class="tabs">
-      <button class="tab active">Hoy</button>
+      <button class="tab active" id="fecha-hoy">Hoy</button>
     </div>
 
     
@@ -42,17 +42,30 @@
 
   <script src="../JS/rutas_comun.js"></script>
   <script>
-    obtenerRutas().then(rutas => {
-      document.getElementById("lista-horarios").innerHTML = rutas.map(ruta => `
-        <div class="ruta">
-          <h3>Ruta ${esc(ruta.numero)}</h3>
-          <p>${esc((ruta.salidas || "Sin horario").replaceAll(",", " "))} ${esc(ruta.frecuencia)}
-            <span class="status ${claseEstado(ruta.estado)}">${esc(ruta.estado)}</span></p>
-        </div>
-      `).join("") || "<p>No hay rutas registradas.</p>";
-    }).catch(() => {
-      document.getElementById("lista-horarios").innerHTML = "<p>No se pudieron cargar los horarios.</p>";
-    });
+
+    function cargarHorarios() {
+      obtenerRutas().then(rutas => {
+        document.getElementById("lista-horarios").innerHTML = rutas.map(ruta => {
+          const salidas = (ruta.salidas || "").split(",").map(h => h.trim()).filter(Boolean);
+          return `
+            <div class="ruta">
+              <h3>Ruta ${esc(ruta.numero)}</h3>
+              <p><strong>Salidas:</strong> ${salidas.length ? salidas.map(esc).join(" · ") : "Sin horario"}</p>
+              <p><strong>Frecuencia:</strong> ${esc(ruta.frecuencia || "Sin definir")}</p>
+              <p class="status ${claseEstado(ruta.estado)}">${esc(ruta.estado)}</p>
+            </div>
+          `;
+        }).join("") || "<p>No hay rutas registradas.</p>";
+      }).catch(() => {
+        document.getElementById("lista-horarios").innerHTML = "<p>No se pudieron cargar los horarios.</p>";
+      });
+    }
+
+    document.getElementById("fecha-hoy").textContent = "Hoy · " +
+      new Date().toLocaleDateString("es-CO", { weekday: "long", day: "numeric", month: "long" });
+
+    cargarHorarios();
+    setInterval(cargarHorarios, 60000); 
   </script>
 </body>
 </html>

@@ -26,10 +26,12 @@ CREATE TABLE IF NOT EXISTS rutas (
     link VARCHAR(100) NOT NULL
 );
 
+-- Rutas de EJEMPLO para probar la app. Las rutas reales se crean, editan y eliminan
+-- desde la aplicación (administrador.html y rutas_guardadas.html), no aquí.
 INSERT INTO rutas (numero, descripcion, duracion, costo, paraderos, estado, link) VALUES
 ('205', 'Parque Principal → Centro → Av. Bolívar → Colegio', '28 min', '$2.400', 6, 'Retraso', 'mapa.html'),
-('132', 'Parque Principal → Centro → Av. Bolívar → Colegio', '35 min', '$2.400', 8, 'En servicio', 'mapa2.html'),
-('109', 'Parque Principal → Centro → Av. Bolívar → Colegio', '40 min', '$2.600', 10, 'Fuera de servicio', 'mapa3.html')
+('132', 'Parque Principal → Centro → Av. Bolívar → Colegio', '35 min', '$2.400', 8, 'En servicio', 'mapa.html'),
+('109', 'Parque Principal → Centro → Av. Bolívar → Colegio', '40 min', '$2.600', 10, 'Fuera de servicio', 'mapa.html')
 ON DUPLICATE KEY UPDATE
     descripcion = VALUES(descripcion), duracion = VALUES(duracion), costo = VALUES(costo),
     paraderos = VALUES(paraderos), estado = VALUES(estado), link = VALUES(link);

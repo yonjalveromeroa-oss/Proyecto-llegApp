@@ -18,7 +18,9 @@
     </div>
   </div>
 
+<script src="../JS/rutas_comun.js"></script>
 <script type="module">
+  await exigirAdmin();
   const mensajeNovedad = document.getElementById("mensaje-novedad");
   const novedades = await (await fetch("../PHP/usuarios.php?accion=novedades")).json();
 
@@ -28,10 +30,10 @@
       mensajeNovedad.innerHTML += `
         <div class="mensaje">
           <p><strong>Novedad #${index + 1}</strong></p>
-          <p><strong>Tipo de novedad:</strong> ${data.tipo}</p>
+          <p><strong>Tipo de novedad:</strong> ${esc(data.tipo)}</p>
           <p><strong>Comentario:</strong></p>
-          <blockquote>${data.comentarios}</blockquote>
-          <p><em>Fecha de envío:</em> ${data.fecha}</p>
+          <blockquote>${esc(data.comentarios)}</blockquote>
+          <p><em>Fecha de envío:</em> ${esc(data.fecha)}</p>
         </div>
         <hr>
       `;

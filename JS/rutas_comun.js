@@ -41,3 +41,46 @@ async function guardarRutaFavorita(numero) {
     timer: resultado.ok ? 2000 : undefined
   });
 }
+
+// ---- Sesión ----
+
+// Devuelve { ok, nombre, rol } del usuario que inició sesión
+async function obtenerSesion() {
+  try {
+    return await (await fetch("../PHP/usuarios.php?accion=sesion")).json();
+  } catch (error) {
+    return { ok: false };
+  }
+}
+
+// Para páginas solo de administrador: si no lo es, lo manda al login
+async function exigirAdmin() {
+  const sesion = await obtenerSesion();
+  if (!sesion.ok || sesion.rol !== "admin") {
+    window.location.replace("inicio_sesion.html");
+    throw new Error("Se requiere una cuenta administradora");
+  }
+  return sesion;
+}
+
+async function cerrarSesion() {
+  const datos = new FormData();
+  datos.append("accion", "logout");
+  await fetch("../PHP/usuarios.php", { method: "POST", body: datos });
+  window.location.href = "inicio_sesion.html";
+}
+
+// Distancia aproximada en km entre dos puntos [lat, lng]
+function distanciaKm(a, b) {
+  const rad = x => x * Math.PI / 180;
+  const dLat = rad(b[0] - a[0]), dLng = rad(b[1] - a[1]);
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(rad(a[0])) * Math.cos(rad(b[0])) * Math.sin(dLng / 2) ** 2;
+  return 6371 * 2 * Math.asin(Math.sqrt(h));
+}
+
+// Convierte "lat,lng; lat,lng" (columna rutas.coordenadas) en [[lat, lng], ...]
+function leerCoordenadas(texto) {
+  return (texto || "").split(";")
+    .map(par => par.split(",").map(Number))
+    .filter(p => p.length === 2 && p.every(Number.isFinite));
+}

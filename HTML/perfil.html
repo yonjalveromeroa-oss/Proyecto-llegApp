@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LlegApp - Mi perfil</title>
   <link rel="stylesheet" href="../CSS/perfil.css">
 </head>
@@ -9,18 +10,12 @@
  
   <nav class="navbar">
     <ul>
-    
-<nav class="navbar">
-  <ul>
-    <li><a href="home.html">Inicio</a></li>
-    <li><a href="encuentra_tu_ruta.html">Rutas</a></li>
-    <li><a href="horario.html">Horarios</a></li>
-    <li><a href="novedades.html">Alertas</a></li>
-    <li><a href="novedades.html">Alertas</a></li>
-    <li><a href="rutas_guardadas.html">Rutas guardadas</a></li>
-  </ul>
-</nav>
-
+      <li><a href="home.html">Inicio</a></li>
+      <li><a href="encuentra_tu_ruta.html">Rutas</a></li>
+      <li><a href="horario.html">Horarios</a></li>
+      <li><a href="novedades.html">Alertas</a></li>
+      <li><a href="rutas_guardadas.html">Rutas guardadas</a></li>
+      <li><a href="#" onclick="cerrarSesion(); return false;">Cerrar sesión</a></li>
     </ul>
   </nav>
 
@@ -55,7 +50,6 @@
     window.addEventListener("DOMContentLoaded", async () => {
       const perfil = await (await fetch("../PHP/perfiles.php")).json();
 
-      // Sin sesión no hay perfil: se manda al login
       if (!perfil) {
         window.location.href = "inicio_sesion.html";
         return;

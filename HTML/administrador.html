@@ -16,16 +16,18 @@
         <li><a href="home.html">🏠 Inicio</a></li>
         <li><a href="encuentra_tu_ruta.html">🚌 Encuentra tu ruta</a></li>
         <li><a href="horario.html">⏱ Horarios</a></li>
+        <li><a href="rutas_guardadas.html">🗂 Rutas guardadas / Crear ruta</a></li>
         <li><a href="comentarioU.html">⚠️ Novedades</a></li>
         <li><a href="perfil.html">👤 Perfil</a></li>
         <li><a href="editar_tu_perfil.html">✏️ Editar perfil</a></li>
+        <li><a href="#" onclick="cerrarSesion(); return false;">🚪 Cerrar sesión</a></li>
       </ul>
     </aside>
 
     <main class="main-content">
       <header>
         <h1>Panel de control</h1>
-        <p>Bienvenido, Administrador</p>
+        <p id="bienvenida">Bienvenido</p>
       </header>
 
       <section class="stats">
@@ -44,6 +46,26 @@
       </section>
 
       <section class="users">
+        <h2>Gestión de rutas y horarios</h2>
+        <p>Edita las horas de salida (separadas por coma), la frecuencia y el estado, y pulsa Guardar: los cambios aparecen en Horarios.
+          Con ✏️ editas todos los datos de la ruta y con 🗑 la eliminas. Para crear rutas ve a <a href="rutas_guardadas.html">Rutas guardadas / Crear ruta</a>.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Ruta</th>
+              <th>Salidas</th>
+              <th>Frecuencia</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-horarios">
+            <tr><td colspan="5">Cargando horarios...</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="users">
         <h2>Gestión de usuarios</h2>
         <table>
           <thead>
@@ -55,7 +77,7 @@
               <th>Acciones</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="tabla-usuarios">
         
           </tbody>
         </table>
@@ -66,40 +88,199 @@
   <script src="../JS/rutas_comun.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
-      // Usuarios
+  
+      const sesion = await exigirAdmin();
+      document.getElementById("bienvenida").textContent = "Bienvenido, " + sesion.nombre;
+
+   
       let usuarios = await (await fetch("../PHP/usuarios.php?accion=listar")).json();
       document.getElementById("contador-usuarios").textContent = usuarios.length;
 
-      const tbody = document.querySelector("tbody");
+      const tbody = document.getElementById("tabla-usuarios");
       tbody.innerHTML = "";
-      usuarios.forEach((usuario, index) => {
+      usuarios.forEach(usuario => {
         const fila = document.createElement("tr");
         fila.innerHTML = `
-          <td>${usuario.nombre}</td>
-          <td>${usuario.correo}</td>
-          <td>${usuario.colegio}</td>
-          <td>${usuario.estado}</td>
+          <td>${esc(usuario.nombre)}</td>
+          <td>${esc(usuario.correo)}</td>
+          <td>${esc(usuario.colegio)}</td>
+          <td>${esc(usuario.estado)}</td>
           <td>
-            <button onclick="eliminarUsuario(${usuario.id})">❌ Eliminar</button>
+            <button class="eliminar">❌ Eliminar</button>
           </td>
         `;
+        fila.querySelector("button").addEventListener("click", () => eliminarUsuario(usuario.id, usuario.nombre));
         tbody.appendChild(fila);
       });
 
       let novedades = await (await fetch("../PHP/usuarios.php?accion=novedades")).json();
       document.getElementById("contador-novedades").textContent = novedades.length;
 
-      // Rutas activas = las que no están fuera de servicio
-      const rutas = await obtenerRutas();
-      document.getElementById("contador-rutas").textContent =
-        rutas.filter(r => claseEstado(r.estado) !== "fuera-servicio").length;
+      cargarHorarios();
     });
 
-    async function eliminarUsuario(id) {
+    const nombreEstado = { "en-servicio": "En servicio", "retraso": "Retraso", "fuera-servicio": "Fuera de servicio" };
+
+
+    async function cargarHorarios() {
+      const tbody = document.getElementById("tabla-horarios");
+      let rutas;
+      try {
+        rutas = await obtenerRutas();
+      } catch (error) {
+        tbody.innerHTML = '<tr><td colspan="5">No se pudieron cargar los horarios.</td></tr>';
+        return;
+      }
+
+      document.getElementById("contador-rutas").textContent =
+        rutas.filter(r => claseEstado(r.estado) !== "fuera-servicio").length;
+
+      if (rutas.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5">No hay rutas registradas.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = "";
+      rutas.forEach(ruta => {
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+          <td>${esc(ruta.numero)}</td>
+          <td><input type="text" data-campo="salidas" maxlength="100" placeholder="4:20 PM, 4:35 PM" aria-label="Salidas de la ruta ${esc(ruta.numero)}"></td>
+          <td><input type="text" data-campo="frecuencia" maxlength="30" placeholder="Cada 15 min" aria-label="Frecuencia de la ruta ${esc(ruta.numero)}"></td>
+          <td>
+            <select data-campo="estado" aria-label="Estado de la ruta ${esc(ruta.numero)}">
+              <option>En servicio</option>
+              <option>Retraso</option>
+              <option>Fuera de servicio</option>
+            </select>
+          </td>
+          <td>
+            <button class="editar" data-accion="guardar">💾 Guardar</button>
+            <button class="editar" data-accion="editar" title="Editar todos los datos">✏️</button>
+            <button class="eliminar" data-accion="eliminar" title="Eliminar ruta">🗑</button>
+          </td>
+        `;
+
+        fila.querySelector('[data-campo="salidas"]').value = ruta.salidas || "";
+        fila.querySelector('[data-campo="frecuencia"]').value = ruta.frecuencia || "";
+        fila.querySelector('[data-campo="estado"]').value = nombreEstado[claseEstado(ruta.estado)];
+        fila.querySelector('[data-accion="guardar"]').addEventListener("click", () => guardarHorario(ruta.numero, fila));
+        fila.querySelector('[data-accion="editar"]').addEventListener("click", () => editarRuta(ruta));
+        fila.querySelector('[data-accion="eliminar"]').addEventListener("click", () => eliminarRuta(ruta.numero));
+        tbody.appendChild(fila);
+      });
+    }
+
+    async function guardarHorario(numero, fila) {
+      const datos = new FormData();
+      datos.append("accion", "horario");
+      datos.append("numero", numero);
+      fila.querySelectorAll("[data-campo]").forEach(campo => datos.append(campo.dataset.campo, campo.value.trim()));
+
+      let resultado;
+      try {
+        resultado = await (await fetch("../PHP/rutas.php", { method: "POST", body: datos })).json();
+      } catch (error) {
+        resultado = { ok: false, mensaje: "No se pudo conectar con el servidor." };
+      }
+
+      Swal.fire({
+        icon: resultado.ok ? "success" : "error",
+        title: resultado.ok ? "Horario actualizado" : "No se pudo guardar",
+        text: resultado.mensaje,
+        showConfirmButton: !resultado.ok,
+        timer: resultado.ok ? 1500 : undefined
+      });
+
+      if (resultado.ok) cargarHorarios();
+    }
+
+    async function enviarAccionRuta(datos, tituloOk) {
+      let resultado;
+      try {
+        resultado = await (await fetch("../PHP/rutas.php", { method: "POST", body: datos })).json();
+      } catch (error) {
+        resultado = { ok: false, mensaje: "No se pudo conectar con el servidor." };
+      }
+      Swal.fire({
+        icon: resultado.ok ? "success" : "error",
+        title: resultado.ok ? tituloOk : "No se pudo completar",
+        text: resultado.mensaje,
+        showConfirmButton: !resultado.ok,
+        timer: resultado.ok ? 1500 : undefined
+      });
+      if (resultado.ok) cargarHorarios();
+      return resultado.ok;
+    }
+
+
+    async function editarRuta(ruta) {
+      const campos = [
+        ["descripcion", "Recorrido"], ["duracion", "Duración (ej. 30 min)"], ["costo", "Costo (ej. $2.400)"],
+        ["paraderos", "Número de paraderos"], ["salidas", "Salidas (ej. 4:20 PM, 4:35 PM)"],
+        ["frecuencia", "Frecuencia (ej. Cada 15 min)"], ["coordenadas", "Paraderos en el mapa: lat,lng; lat,lng"]
+      ];
+      const { value: valores } = await Swal.fire({
+        title: "Editar ruta " + ruta.numero,
+        html: campos.map(([c, t]) => `<input id="sw-${c}" class="swal2-input" placeholder="${t}" aria-label="${t}">`).join("") +
+          `<select id="sw-estado" class="swal2-select" aria-label="Estado">
+             <option>En servicio</option><option>Retraso</option><option>Fuera de servicio</option>
+           </select>`,
+        showCancelButton: true,
+        confirmButtonText: "Guardar cambios",
+        cancelButtonText: "Cancelar",
+        didOpen: () => {
+
+          campos.forEach(([c]) => document.getElementById("sw-" + c).value = ruta[c] ?? "");
+          document.getElementById("sw-estado").value = nombreEstado[claseEstado(ruta.estado)];
+        },
+        preConfirm: () => Object.fromEntries([...campos.map(([c]) => c), "estado"]
+          .map(c => [c, document.getElementById("sw-" + c).value.trim()]))
+      });
+      if (!valores) return;
+
+      const datos = new FormData();
+      datos.append("accion", "editar");
+      datos.append("numero", ruta.numero);
+      Object.entries(valores).forEach(([c, v]) => datos.append(c, v));
+      enviarAccionRuta(datos, "Ruta actualizada");
+    }
+
+    async function confirmarBorrado(titulo, texto) {
+      const confirmacion = await Swal.fire({
+        icon: "warning",
+        title: titulo,
+        text: texto,
+        showCancelButton: true,
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar",
+        confirmButtonColor: "#e74c3c"
+      });
+      return confirmacion.isConfirmed;
+    }
+
+    async function eliminarRuta(numero) {
+      if (!await confirmarBorrado("¿Eliminar la ruta " + numero + "?",
+        "También se quitará de las rutas guardadas de los usuarios. No se puede deshacer.")) return;
+
+      const datos = new FormData();
+      datos.append("accion", "eliminar_ruta");
+      datos.append("numero", numero);
+      enviarAccionRuta(datos, "Ruta eliminada");
+    }
+
+    async function eliminarUsuario(id, nombre) {
+      if (!await confirmarBorrado("¿Eliminar a " + nombre + "?",
+        "Se borrará su cuenta y su perfil. No se puede deshacer.")) return;
+
       const datos = new FormData();
       datos.append("accion", "eliminar");
       datos.append("id", id);
-      await fetch("../PHP/usuarios.php", { method: "POST", body: datos });
+      const resultado = await (await fetch("../PHP/usuarios.php", { method: "POST", body: datos })).json();
+      if (!resultado.ok) {
+        Swal.fire({ icon: "error", title: "No se pudo eliminar", text: resultado.mensaje });
+        return;
+      }
 
       Swal.fire({
         icon: "success",

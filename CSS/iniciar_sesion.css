@@ -172,3 +172,35 @@ button.secundario:hover {
 .home-btn:hover {
   background: #ffffff;
 }
+
+@media (max-width: 768px) {
+  .contenedor {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .izquierda,
+  .derecha {
+    width: 100%;
+  }
+
+  .izquierda {
+    padding: 20px;
+  }
+
+  .lema {
+    font-size: 17px;
+    margin: 20px 0;
+  }
+
+  .derecha {
+    padding: 25px 15px;
+  }
+
+  .login {
+    width: 100%;
+    max-width: 360px;
+    padding: 25px 20px;
+  }
+}
