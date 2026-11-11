@@ -19,7 +19,7 @@
         <li><a href="horario.html">Horarios</a></li>
         <li><a href="novedades.html">Novedades</a></li>
         <li><a href="perfil.html">Perfil</a></li>
-        <li><a href="inicio_sesion.html">Iniciar sesión</a></li>
+        <li id="nav-sesion"><a href="inicio_sesion.html">Iniciar sesión</a></li>
        
       </ul>
     </nav>
@@ -41,14 +41,14 @@
 
   <section class="search-section">
     <h2>¿A dónde necesitas llegar?</h2>
-    <div class="search-box">
-      <input type="text" placeholder="Mi_ubicación" id="Mi_ubicación" name="Mi_ubicación">
-      <input type="text" placeholder="Seleccionar_colegio" id="Seleccionar_colegio" name="Seleccionar_colegio">
-      <button class="btn-primary" onclick="window.location.href='encuentra_tu_ruta.html'">
+    <form class="search-box" action="encuentra_tu_ruta.html" method="get">
+      <input type="text" placeholder="Desde dónde sales (ej. Parque Principal)" id="Mi_ubicación" name="origen" aria-label="Origen">
+      <input type="text" placeholder="Tu colegio o destino" id="Seleccionar_colegio" name="destino" aria-label="Destino">
+      <button type="submit" class="btn-primary">
         Buscar rutas
       </button>
-      <a href="#" class="use-location">Usar mi ubicación</a>
-    </div>
+      <a href="encuentra_tu_ruta.html?cerca=1" class="use-location">Usar mi ubicación</a>
+    </form>
   </section>
 
   <section class="cards">
@@ -77,7 +77,16 @@
 
   <script src="../JS/rutas_comun.js"></script>
   <script>
-    // Tarjetas de novedades según el estado real de cada ruta
+   
+    obtenerSesion().then(sesion => {
+      if (!sesion.ok) return;
+      const item = document.getElementById("nav-sesion");
+      item.innerHTML = '<a href="#">Cerrar sesión</a>';
+      item.querySelector("a").addEventListener("click", e => { e.preventDefault(); cerrarSesion(); });
+      if (sesion.rol === "admin") item.insertAdjacentHTML("beforebegin", '<li><a href="administrador.html">Panel</a></li>');
+    });
+
+    
     const claseTarjeta = { "fuera-servicio": "out", "retraso": "delayed", "en-servicio": "active" };
     obtenerRutas().then(rutas => {
       document.getElementById("novedades-rutas").innerHTML = rutas.map(ruta => `

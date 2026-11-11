@@ -29,6 +29,18 @@
         <p class="subtitulo">Ingresa a tu cuenta de LlegApp</p>
 
         <form id="loginForm">
+         
+          <div class="tipo-cuenta" role="radiogroup" aria-label="Tipo de cuenta">
+            <label class="tipo-opcion">
+              <input type="radio" name="tipo" value="usuario" checked>
+              <span>👤 Usuario</span>
+            </label>
+            <label class="tipo-opcion">
+              <input type="radio" name="tipo" value="admin">
+              <span>🛠 Administrador</span>
+            </label>
+          </div>
+
           <div class="campo">
             <label for="correo">Correo electrónico</label>
             <input type="email" id="correo" placeholder="correo@ejemplo.com" name="correo">
@@ -39,8 +51,8 @@
             <input type="password" id="password" placeholder="********" name="password">
           </div>
 
-          <button type="submit">Iniciar sesión</button>
-          <button type="button" class="secundario" onclick="window.location.href='home.html'">
+          <button type="submit" id="btnEntrar">Iniciar sesión como usuario</button>
+          <button type="button" class="secundario" id="btnInvitado" onclick="window.location.href='home.html'">
             Continuar sin cuenta
           </button>
         </form>
@@ -54,6 +66,16 @@
   </div>
 
   <script>
+   
+    document.querySelectorAll('input[name="tipo"]').forEach(radio => {
+      radio.addEventListener("change", () => {
+        const esAdmin = radio.value === "admin" && radio.checked;
+        document.getElementById("btnEntrar").textContent = esAdmin ? "Iniciar sesión como administrador" : "Iniciar sesión como usuario";
+        document.getElementById("btnInvitado").hidden = esAdmin;
+        document.querySelector(".subtitulo").textContent = esAdmin ? "Ingresa con tu cuenta administradora" : "Ingresa a tu cuenta de LlegApp";
+      });
+    });
+
     document.getElementById("loginForm").addEventListener("submit", async function(e) {
       e.preventDefault();
 
@@ -78,7 +100,7 @@
       if (!resultado.ok) {
         Swal.fire({
           icon: "error",
-          title: "Usuario no encontrado",
+          title: "No se pudo iniciar sesión",
           text: resultado.mensaje
         });
         return;
@@ -93,7 +115,7 @@
       });
 
       setTimeout(() => {
-        window.location.href = resultado.rol === "admin" ? "administrador.html" : "home.html";
+        window.location.href = resultado.destino || "home.html";
       }, 1500);
     });
   </script>

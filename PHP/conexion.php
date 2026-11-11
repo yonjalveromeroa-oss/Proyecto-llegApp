@@ -8,7 +8,11 @@
 
 mysqli_report(MYSQLI_REPORT_OFF);
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+
+foreach ([$password, "1234"] as $clave) {
+    $conn = @new mysqli($servername, $username, $clave, $dbname);
+    if (!$conn->connect_error) break;
+}
 $conn->set_charset("utf8mb4");
 
 if ($conn->connect_error){

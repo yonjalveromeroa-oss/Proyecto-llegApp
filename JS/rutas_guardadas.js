@@ -1,15 +1,26 @@
-// rutas_guardadas.js — muestra las rutas guardadas del usuario desde la base de datos
+// rutas_guardadas.js — muestra las rutas guardadas del usuario y, si es administrador, permite crear rutas
 
 async function cargarRutasGuardadas() {
   const contenedor = document.getElementById("lista-rutas");
-  const rutas = await obtenerRutasGuardadas();
+  let datos;
+  try {
+    datos = await (await fetch("../PHP/rutas.php")).json();
+  } catch (error) {
+    contenedor.innerHTML = "<p>No se pudieron cargar las rutas.</p>";
+    return;
+  }
 
-  if (rutas === null) {
+  if (!datos.ok) {
     contenedor.innerHTML = '<p>Debes <a href="inicio_sesion.html">iniciar sesión</a> para ver tus rutas guardadas.</p>';
     return;
   }
+
+  // El formulario de creación solo aparece para administradores
+  document.getElementById("crear-ruta").hidden = datos.rol !== "admin";
+
+  const rutas = datos.rutas;
   if (rutas.length === 0) {
-    contenedor.innerHTML = "<p>No tienes rutas guardadas aún.</p>";
+    contenedor.innerHTML = '<p>No tienes rutas guardadas aún. <a href="encuentra_tu_ruta.html">Busca una ruta</a> y guárdala.</p>';
     return;
   }
 
@@ -22,9 +33,13 @@ async function cargarRutasGuardadas() {
       <p><strong>Paraderos:</strong> ${esc(ruta.paraderos)}</p>
       <p class="status ${claseEstado(ruta.estado)}">${esc(ruta.estado)}</p>
       <button class="btn" onclick="window.location.href='mapa.html?numero=${encodeURIComponent(ruta.numero)}'">Ver ruta</button>
-      <button class="btn-fav" onclick="quitarRuta('${esc(ruta.numero)}')">🗑 Quitar</button>
+      <button class="btn-fav" data-ruta="${esc(ruta.numero)}">🗑 Quitar</button>
     </div>
   `).join("");
+
+  contenedor.querySelectorAll(".btn-fav").forEach(btn => {
+    btn.addEventListener("click", () => quitarRuta(btn.dataset.ruta));
+  });
 }
 
 async function quitarRuta(numero) {
@@ -35,5 +50,35 @@ async function quitarRuta(numero) {
   });
   cargarRutasGuardadas();
 }
+
+document.getElementById("formCrearRuta").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const datos = new FormData(this);
+  datos.append("accion", "crear");
+
+  // Los nombres de lugares se convierten en "Nombre: lat,lng" antes de enviarlos
+  const paraderos = await prepararParaderos(datos.get("coordenadas"));
+  if (!paraderos.ok) {
+    Swal.fire({ icon: "error", title: "Paradero no encontrado", text: paraderos.mensaje });
+    return;
+  }
+  datos.set("coordenadas", paraderos.texto);
+
+  let resultado;
+  try {
+    resultado = await (await fetch("../PHP/rutas.php", { method: "POST", body: datos })).json();
+  } catch (error) {
+    resultado = { ok: false, mensaje: "No se pudo conectar con el servidor." };
+  }
+
+  Swal.fire({
+    icon: resultado.ok ? "success" : "error",
+    title: resultado.ok ? "Ruta creada" : "No se pudo crear la ruta",
+    text: resultado.mensaje
+  });
+
+  if (resultado.ok) this.reset();
+});
 
 cargarRutasGuardadas();

@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ruta - LlegApp</title>
   <link rel="stylesheet" href="../CSS/mapa.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -33,35 +34,36 @@
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="../JS/rutas_comun.js"></script>
   <script>
+  
     var map = L.map('mapid').setView([5.0703, -75.5138], 14);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
-    var puntosRuta = [
-      [5.0703, -75.5138],
-      [5.0720, -75.5145],
-      [5.0740, -75.5160],
-      [5.0760, -75.5175]
-    ];
+  
+    function dibujarRuta(paraderos) {
+      if (paraderos.length === 0) return false;
 
-    var ruta = L.polyline(puntosRuta, {color: 'blue'}).addTo(map);
-
-    puntosRuta.forEach((punto, i) => {
-      L.circleMarker(punto, {radius: 6, color: 'blue'}).addTo(map)
-        .on('click', function() {
-          Swal.fire({
-            icon: "info",
-            title: "Paradero " + (i+1),
-            text: "Ubicación: " + punto[0].toFixed(4) + ", " + punto[1].toFixed(4)
+      var ruta = L.polyline(paraderos.map(p => p.punto), {color: 'blue'}).addTo(map);
+      paraderos.forEach((p, i) => {
+        const nombre = p.nombre || "Paradero " + (i + 1);
+        const esExtremo = i === 0 || i === paraderos.length - 1;
+        L.circleMarker(p.punto, {radius: esExtremo ? 8 : 6, color: 'blue', fillOpacity: 0.8}).addTo(map)
+          .bindTooltip(esc(nombre), { permanent: esExtremo, direction: "top" })
+          .on('click', function() {
+            Swal.fire({
+              icon: "info",
+              title: nombre,
+              text: "Paradero " + (i + 1) + " de " + paraderos.length
+            });
           });
-        });
-    });
+      });
+      map.fitBounds(ruta.getBounds(), { padding: [20, 20] });
+      return true;
+    }
 
-    map.fitBounds(ruta.getBounds());
-
-    // Datos de la ruta desde la base: mapa.html?numero=205
+   
     const numero = new URLSearchParams(location.search).get("numero");
     const iconos = { "en-servicio": "🟢", "retraso": "🟡", "fuera-servicio": "🔴" };
 
@@ -81,6 +83,16 @@
       document.getElementById("ruta-duracion").textContent = "⏱ Tiempo: " + r.duracion;
       document.getElementById("ruta-costo").textContent = "💰 Costo: " + r.costo;
       document.getElementById("ruta-paraderos").textContent = "🪧 Paraderos: " + r.paraderos;
+
+      const paraderos = leerParaderos(r.coordenadas);
+      const nombres = paraderos.map(p => p.nombre).filter(Boolean);
+      if (nombres.length) {
+        document.getElementById("ruta-paraderos").textContent += " — " + nombres.join(" → ");
+      }
+
+      if (!dibujarRuta(paraderos)) {
+        document.getElementById("ruta-descripcion").textContent = r.descripcion + " (esta ruta aún no tiene paraderos ubicados en el mapa)";
+      }
 
       if (claseEstado(r.estado) === "fuera-servicio") {
         Swal.fire({ icon: "error", title: "Ruta no disponible", text: `La Ruta ${r.numero} está fuera de servicio actualmente` });

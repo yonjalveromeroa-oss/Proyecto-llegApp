@@ -36,9 +36,12 @@ VALUES ('Juan Romero', 'juan.romero@ejemplo.com', 'Colegio San José', 'Parque P
 
 
 
+
 CREATE TABLE novedades (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    tipo VARCHAR(30) NOT NULL,
+    usuario_id INT NULL,
+    tipo ENUM('fuera-servicio', 'retraso') NOT NULL,
     comentarios TEXT NOT NULL,
-    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_novedades_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
 );

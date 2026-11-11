@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LlegApp</title>
   <link rel="stylesheet" href="../CSS/encuentra_tu_ruta.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -18,17 +19,21 @@
     <ul class="nav-links">
       <li><a href="home.html">Inicio</a></li>
       <li><a href="horario.html">Horarios</a></li>
-      <li><a href="alertas.html">Novedades</a></li>
+      <li><a href="novedades.html">Novedades</a></li>
+      <li><a href="rutas_guardadas.html">Rutas guardadas</a></li>
       <li><a href="perfil.html">Perfil</a></li>
     </ul>
   </nav>
 
-  <section class="search-section">
-    <input type="text" placeholder="Origen: Parque Principal" id="Origen" name="Origen" >
-    <input type="text" placeholder="Destino: Colegio San José" id="Destino" name="Destino">
-    <button class="btn" onclick="window.location.href='buscar.html'">Buscar</button>
-    <div class="sort-options"></div>
-  </section>
+  <form class="search-section" id="formBuscar">
+    <input type="text" placeholder="Origen (ej. Parque Principal)" id="Origen" name="Origen" aria-label="Origen">
+    <input type="text" placeholder="Destino (ej. Colegio)" id="Destino" name="Destino" aria-label="Destino">
+    <button type="submit" class="btn">Buscar</button>
+    <div class="sort-options">
+      <button type="button" class="sort" id="usarUbicacion">📍 Cerca de mí</button>
+      <button type="button" class="sort" id="limpiarBusqueda">Ver todas</button>
+    </div>
+  </form>
 
   <section class="routes" id="lista-rutas">
     <p>Cargando rutas...</p>
@@ -36,18 +41,53 @@
 
   <script src="../JS/rutas_comun.js"></script>
   <script>
-    async function cargarRutas() {
+    let todasLasRutas = [];
+    let miUbicacion = null;
+
+  
+    const normalizar = t => (t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+
+   
+    function paraderoMasCercano(ruta) {
+      const puntos = leerCoordenadas(ruta.coordenadas);
+      if (!miUbicacion || puntos.length === 0) return null;
+      return Math.min(...puntos.map(p => distanciaKm(miUbicacion, p)));
+    }
+
+    function mostrarRutas() {
       const contenedor = document.getElementById("lista-rutas");
-      try {
-        const rutas = await obtenerRutas();
-        if (rutas.length === 0) {
-          contenedor.innerHTML = "<p>No hay rutas registradas.</p>";
-          return;
-        }
-        contenedor.innerHTML = rutas.map(ruta => `
+      const origen = normalizar(document.getElementById("Origen").value);
+      const destino = normalizar(document.getElementById("Destino").value);
+
+  
+      let rutas = todasLasRutas.filter(ruta => {
+        const lugares = leerParaderos(ruta.coordenadas).map(p => p.nombre).join(" ");
+        const texto = normalizar(ruta.numero + " " + ruta.descripcion + " " + lugares);
+        return (!origen || texto.includes(origen)) && (!destino || texto.includes(destino));
+      });
+
+   
+      const distancias = new Map(rutas.map(r => [r, paraderoMasCercano(r)]));
+      if (miUbicacion) {
+        rutas = rutas.slice().sort((a, b) => (distancias.get(a) ?? Infinity) - (distancias.get(b) ?? Infinity));
+      }
+
+      if (todasLasRutas.length === 0) {
+        contenedor.innerHTML = "<p>No hay rutas registradas.</p>";
+        return;
+      }
+      if (rutas.length === 0) {
+        contenedor.innerHTML = "<p>No encontramos rutas con ese origen o destino. Prueba con otra palabra o pulsa <strong>Ver todas</strong>.</p>";
+        return;
+      }
+
+      contenedor.innerHTML = rutas.map(ruta => {
+        const km = distancias.get(ruta);
+        return `
           <div class="route-card">
             <h3>Ruta ${esc(ruta.numero)}</h3>
             <p>${esc(ruta.descripcion)}</p>
+            ${km != null ? `<p><strong>Paradero más cercano:</strong> a ${km < 1 ? Math.round(km * 1000) + " m" : km.toFixed(1) + " km"} de ti</p>` : ""}
             <p><strong>Duración:</strong> ${esc(ruta.duracion)}</p>
             <p><strong>Costo:</strong> ${esc(ruta.costo)}</p>
             <p><strong>Paraderos:</strong> ${esc(ruta.paraderos)}</p>
@@ -55,14 +95,53 @@
             <button class="btn" onclick="window.location.href='mapa.html?numero=${encodeURIComponent(ruta.numero)}'">Ver ruta</button>
             <button class="btn-fav" data-ruta="${esc(ruta.numero)}">⭐ Guardar a favoritos</button>
           </div>
-        `).join("");
+        `;
+      }).join("");
 
-        contenedor.querySelectorAll(".btn-fav").forEach(btn => {
-          btn.addEventListener("click", () => guardarRutaFavorita(btn.dataset.ruta));
-        });
-      } catch (error) {
-        contenedor.innerHTML = "<p>No se pudieron cargar las rutas.</p>";
+      contenedor.querySelectorAll(".btn-fav").forEach(btn => {
+        btn.addEventListener("click", () => guardarRutaFavorita(btn.dataset.ruta));
+      });
+    }
+
+    function usarUbicacion() {
+      if (!navigator.geolocation) {
+        Swal.fire({ icon: "info", title: "Tu navegador no permite compartir la ubicación" });
+        return;
       }
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          miUbicacion = [pos.coords.latitude, pos.coords.longitude];
+          mostrarRutas();
+        },
+        () => Swal.fire({ icon: "info", title: "No pudimos obtener tu ubicación", text: "Revisa el permiso de ubicación del navegador." })
+      );
+    }
+
+    document.getElementById("formBuscar").addEventListener("submit", e => {
+      e.preventDefault();
+      mostrarRutas();
+    });
+    document.getElementById("usarUbicacion").addEventListener("click", usarUbicacion);
+    document.getElementById("limpiarBusqueda").addEventListener("click", () => {
+      document.getElementById("formBuscar").reset();
+      miUbicacion = null;
+      mostrarRutas();
+    });
+
+    async function cargarRutas() {
+      
+      const params = new URLSearchParams(location.search);
+      document.getElementById("Origen").value = params.get("origen") || "";
+      document.getElementById("Destino").value = params.get("destino") || "";
+
+      try {
+        todasLasRutas = await obtenerRutas();
+      } catch (error) {
+        document.getElementById("lista-rutas").innerHTML = "<p>No se pudieron cargar las rutas.</p>";
+        return;
+      }
+      mostrarRutas();
+      if (params.get("cerca") === "1") usarUbicacion();
     }
 
     cargarRutas();

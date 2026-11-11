@@ -9,17 +9,44 @@
 </head>
 <body>
   <nav class="navbar">
-    <div class="brand"><span class="app-name">LlegApp</span></div>
+    <div class="brand">
+      <img src="https://cdn-icons-png.flaticon.com/512/4814/4814142.png" alt="Logo LlegApp" class="logo">
+      <span class="app-name">LlegApp</span>
+    </div>
     <ul class="nav-links">
       <li><a href="home.html">Inicio</a></li>
       <li><a href="encuentra_tu_ruta.html">Rutas</a></li>
+      <li><a href="horario.html">Horarios</a></li>
       <li><a href="perfil.html">Perfil</a></li>
     </ul>
   </nav>
+
   <main class="routes">
     <h1>Mis rutas guardadas</h1>
     <div id="lista-rutas">Cargando rutas...</div>
+
+
+    <section id="crear-ruta" hidden>
+      <h2>Crear nueva ruta</h2>
+      <form id="formCrearRuta" class="search-section">
+        <input type="text" name="numero" placeholder="Número (ej. 210)" aria-label="Número de ruta" maxlength="10" required>
+        <input type="text" name="descripcion" placeholder="Recorrido (ej. Parque → Centro → Colegio)" aria-label="Recorrido" maxlength="255" required>
+        <input type="text" name="duracion" placeholder="Duración (ej. 30 min)" aria-label="Duración" maxlength="30" required>
+        <input type="text" name="costo" placeholder="Costo (ej. $2.400)" aria-label="Costo" maxlength="30" required>
+        <input type="number" name="paraderos" placeholder="Paraderos" aria-label="Número de paraderos" min="1" required>
+        <select name="estado" aria-label="Estado">
+          <option>En servicio</option>
+          <option>Retraso</option>
+          <option>Fuera de servicio</option>
+        </select>
+        <input type="text" name="salidas" placeholder="Salidas (ej. 4:20 PM, 4:35 PM)" aria-label="Horas de salida" maxlength="100">
+        <input type="text" name="frecuencia" placeholder="Frecuencia (ej. Cada 15 min)" aria-label="Frecuencia" maxlength="30">
+        <input type="text" name="coordenadas" placeholder="Paraderos (ej. Plaza de Bolívar; Fundadores; Cable Plaza)" aria-label="Paraderos: nombres de lugares de Manizales separados por punto y coma" title="Escribe lugares de Manizales separados por ; — también puedes poner Nombre: lat,lng">
+        <button type="submit" class="btn">➕ Crear ruta</button>
+      </form>
+    </section>
   </main>
+
   <script src="../JS/rutas_comun.js"></script>
   <script src="../JS/rutas_guardadas.js"></script>
 </body>

@@ -97,6 +97,48 @@ body {
   margin-bottom: 15px;
 }
 
+
+.tipo-cuenta {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.tipo-opcion {
+  flex: 1;
+  margin: 0;
+  cursor: pointer;
+}
+
+.tipo-opcion input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.tipo-opcion span {
+  display: block;
+  padding: 10px 6px;
+  text-align: center;
+  font-size: 13px;
+  border: 2px solid #E1E5EC;
+  border-radius: 6px;
+  background: #F8F9FC;
+  color: #4C566D;
+}
+
+.tipo-opcion input:checked + span {
+  border-color: #6C63FF;
+  background: #6C63FF;
+  color: #fff;
+}
+
+.tipo-opcion input:focus-visible + span {
+  outline: 2px solid #2854D9;
+  outline-offset: 2px;
+}
+
 label {
   display: block;
   font-size: 12px;
@@ -171,4 +213,36 @@ button.secundario:hover {
 
 .home-btn:hover {
   background: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .contenedor {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .izquierda,
+  .derecha {
+    width: 100%;
+  }
+
+  .izquierda {
+    padding: 20px;
+  }
+
+  .lema {
+    font-size: 17px;
+    margin: 20px 0;
+  }
+
+  .derecha {
+    padding: 25px 15px;
+  }
+
+  .login {
+    width: 100%;
+    max-width: 360px;
+    padding: 25px 20px;
+  }
 }

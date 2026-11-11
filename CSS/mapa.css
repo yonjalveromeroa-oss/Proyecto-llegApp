@@ -3,15 +3,23 @@ body {
   background: #f4f6f8;
   margin: 0;
   padding: 20px;
+  overflow-wrap: break-word;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 .container {
   display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
   gap: 20px;
 }
 
 .map {
-  flex: 2;
+  flex: 2 1 400px;
+  min-width: 0;
   background: #fff;
   padding: 20px;
   border-radius: 8px;
@@ -66,8 +74,19 @@ body {
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   text-align: center;
+  flex: 1 1 260px;
   max-width: 320px;
   animation: fadeIn 0.8s ease-out;
+}
+
+@media (max-width: 700px) {
+  body {
+    padding: 10px;
+  }
+
+  .card {
+    max-width: none;
+  }
 }
 
 .card h3 {

@@ -9,6 +9,7 @@
 body {
   background-color: #f9f9f9;
   color: #333;
+  overflow-wrap: break-word;
 }
 
 .navbar {
@@ -16,6 +17,8 @@ body {
   justify-content: space-between;
   align-items: center;
   background: #0d6efd;
+  flex-wrap: wrap;
+  gap: 0.75rem;
   padding: 1rem 2rem;
   color: #fff;
 }
@@ -35,7 +38,8 @@ body {
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
 }
 
 .nav-links a {
@@ -49,6 +53,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
   padding: 3rem 2rem;
   background: #e9f2ff;
 }
@@ -118,6 +124,7 @@ body {
 
 .card-container {
   display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
   justify-content: center;
   margin-top: 1rem;
@@ -185,4 +192,22 @@ body {
 
 .news a.news-item:hover {
   opacity: 0.9;
+}
+
+@media (max-width: 600px) {
+  .navbar,
+  .hero,
+  .search-section,
+  .cards {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .hero-text h1 {
+    font-size: 1.6rem;
+  }
+
+  .hero-image img {
+    width: 140px;
+  }
 }
