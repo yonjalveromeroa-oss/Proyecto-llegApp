@@ -54,7 +54,7 @@ if ($accion == "login") {
     $resultado = mysqli_query($conn, "SELECT * FROM usuarios WHERE correo = '$correo'");
     $usuario = mysqli_fetch_assoc($resultado);
 
-    // Tipo de cuenta elegido en el login: "usuario" o "admin"
+
     $tipo = ($_POST['tipo'] ?? 'usuario') === 'admin' ? 'admin' : 'usuario';
 
     if ($usuario && password_verify($_POST['password'], $usuario['password'])) {

@@ -68,7 +68,7 @@ async function cerrarSesion() {
   window.location.href = "inicio_sesion.html";
 }
 
-// Distancia aproximada en km entre dos puntos [lat, lng]
+
 function distanciaKm(a, b) {
   const rad = x => x * Math.PI / 180;
   const dLat = rad(b[0] - a[0]), dLng = rad(b[1] - a[1]);

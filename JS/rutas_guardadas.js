@@ -1,4 +1,4 @@
-// rutas_guardadas.js — muestra las rutas guardadas del usuario y, si es administrador, permite crear rutas
+
 
 async function cargarRutasGuardadas() {
   const contenedor = document.getElementById("lista-rutas");
@@ -15,7 +15,6 @@ async function cargarRutasGuardadas() {
     return;
   }
 
-  // El formulario de creación solo aparece para administradores
   document.getElementById("crear-ruta").hidden = datos.rol !== "admin";
 
   const rutas = datos.rutas;
@@ -57,7 +56,6 @@ document.getElementById("formCrearRuta").addEventListener("submit", async functi
   const datos = new FormData(this);
   datos.append("accion", "crear");
 
-  // Los nombres de lugares se convierten en "Nombre: lat,lng" antes de enviarlos
   const paraderos = await prepararParaderos(datos.get("coordenadas"));
   if (!paraderos.ok) {
     Swal.fire({ icon: "error", title: "Paradero no encontrado", text: paraderos.mensaje });

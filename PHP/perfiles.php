@@ -6,7 +6,7 @@ $correoSesion = mysqli_real_escape_string($conn, $_SESSION['correo'] ?? "");
 
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    $resultado = mysqli_query($conn, "SELECT * FROM perfiles WHERE email = '$correoSesion'");
+    $ resultado = mysqli_query($conn, "SELECT * FROM perfiles WHERE email = '$correoSesion'");
     $perfil = mysqli_fetch_assoc($resultado);
 
     if (!$perfil) {
